@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MagazineDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Invoices" Relationship="Self.FK_CUSTOMER_INVOICE" FromRole="Customer" ToRole="Invoice" />
+  </EntityType>
+  <EntityType Name="Genre">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Invoice">
+    <Key>
+      <PropertyRef Name="InvoiceNumber" />
+    </Key>
+    <Property Name="InvoiceNumber" Type="Int32" Nullable="false" />
+    <Property Name="Total" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="CardNumber" Type="String" MaxLength="16" FixedLength="true" Unicode="true" />
+    <Property Name="ExpirationMonth" Type="Int32" />
+    <Property Name="ExpirationYear" Type="Int32" />
+    <Property Name="SellerID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+    <Property Name="OrderDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_CUSTOMER_INVOICE" FromRole="Invoice" ToRole="Customer" />
+    <NavigationProperty Name="Seller" Relationship="Self.FK_SELLER_CUSTOMER" FromRole="Invoice" ToRole="Seller" />
+    <NavigationProperty Name="Magazines" Relationship="Self.SaleCart" FromRole="Invoice" ToRole="Magazine" />
+  </EntityType>
+  <EntityType Name="Magazine">
+    <Key>
+      <PropertyRef Name="MID" />
+    </Key>
+    <Property Name="MID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Genre" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Publisher" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Invoices" Relationship="Self.SaleCart" FromRole="Magazine" ToRole="Invoice" />
+  </EntityType>
+  <EntityType Name="Publisher">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="State" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Zipcode" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Seller">
+    <Key>
+      <PropertyRef Name="SellerID" />
+    </Key>
+    <Property Name="SellerID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Invoices" Relationship="Self.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
+  </EntityType>
+  <Association Name="FK_CUSTOMER_INVOICE">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Invoice">
+        <PropertyRef Name="Email" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SELLER_CUSTOMER">
+    <End Role="Seller" Type="Self.Seller" Multiplicity="0..1" />
+    <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Seller">
+        <PropertyRef Name="SellerID" />
+      </Principal>
+      <Dependent Role="Invoice">
+        <PropertyRef Name="SellerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SaleCart">
+    <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+    <End Role="Magazine" Type="Self.Magazine" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="MagazineDataEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="Genres" EntityType="Self.Genre" />
+    <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+    <EntitySet Name="Magazines" EntityType="Self.Magazine" />
+    <EntitySet Name="Publishers" EntityType="Self.Publisher" />
+    <EntitySet Name="Sellers" EntityType="Self.Seller" />
+    <AssociationSet Name="FK_CUSTOMER_INVOICE" Association="Self.FK_CUSTOMER_INVOICE">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Invoice" EntitySet="Invoices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SELLER_CUSTOMER" Association="Self.FK_SELLER_CUSTOMER">
+      <End Role="Seller" EntitySet="Sellers" />
+      <End Role="Invoice" EntitySet="Invoices" />
+    </AssociationSet>
+    <AssociationSet Name="SaleCart" Association="Self.SaleCart">
+      <End Role="Invoice" EntitySet="Invoices" />
+      <End Role="Magazine" EntitySet="Magazines" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
