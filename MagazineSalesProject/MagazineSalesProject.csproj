@@ -234,6 +234,7 @@
     <Compile Include="Models\Publisher.cs">
       <DependentUpon>Magazines.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PublishersController.cs" />
     <Compile Include="Models\Seller.cs">
       <DependentUpon>Magazines.tt</DependentUpon>
     </Compile>
@@ -319,6 +320,15 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Magazines\Index.cshtml" />
+    <Content Include="Views\Magazines\Create.cshtml" />
+    <Content Include="Views\Magazines\Delete.cshtml" />
+    <Content Include="Views\Magazines\Details.cshtml" />
+    <Content Include="Views\Magazines\Edit.cshtml" />
+    <Content Include="Views\Publishers\Create.cshtml" />
+    <Content Include="Views\Publishers\Delete.cshtml" />
+    <Content Include="Views\Publishers\Details.cshtml" />
+    <Content Include="Views\Publishers\Edit.cshtml" />
+    <Content Include="Views\Publishers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

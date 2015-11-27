@@ -4,16 +4,13 @@
     ViewBag.Title = "Index";
 }
 
-<h2>My Magazine List</h2>
+<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.MID)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -35,9 +32,6 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.MID)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
@@ -53,9 +47,9 @@
             @Html.DisplayFor(modelItem => item.Publisher)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Edit", "Edit", new { id=item.MID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MID })
         </td>
     </tr>
 }

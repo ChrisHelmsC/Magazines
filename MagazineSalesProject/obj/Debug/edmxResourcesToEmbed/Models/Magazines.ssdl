@@ -33,12 +33,12 @@
     <Key>
       <PropertyRef Name="MID" />
     </Key>
-    <Property Name="MID" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nchar" MaxLength="10" />
-    <Property Name="Description" Type="nchar" MaxLength="50" />
-    <Property Name="Genre" Type="nchar" MaxLength="40" />
-    <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
-    <Property Name="Publisher" Type="nchar" MaxLength="50" />
+    <Property Name="MID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nchar" MaxLength="50" Nullable="false" />
+    <Property Name="Genre" Type="nchar" MaxLength="40" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Publisher" Type="nchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Publisher">
     <Key>

@@ -6,127 +6,110 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using MagazineSalesProject.Models;
 
-namespace MagazineSalesProject.Controllers
+namespace MagazineSalesProject.Models
 {
-    public class MagazinesController : Controller
+    public class PublishersController : Controller
     {
         private MagazineDataEntities db = new MagazineDataEntities();
 
-        // GET: Magazines
+        // GET: Publishers
         public ActionResult Index()
         {
-            return View(db.Magazines.ToList());
+            return View(db.Publishers.ToList());
         }
 
-        // GET: Magazines/Details/5
-        public ActionResult Details(int? id)
+        // GET: Publishers/Details/5
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Magazine magazine = db.Magazines.Find(id);
-            if (magazine == null)
+            Publisher publisher = db.Publishers.Find(id);
+            if (publisher == null)
             {
                 return HttpNotFound();
             }
-            return View(magazine);
+            return View(publisher);
         }
 
-        // GET: Magazines/Create
+        // GET: Publishers/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Magazines/Create
+        // POST: Publishers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Description,Genre,Price,Publisher")] Magazine magazine)
+        public ActionResult Create([Bind(Include = "Name,Address,City,State,Zipcode,Phone")] Publisher publisher)
         {
             if (ModelState.IsValid)
             {
-                Magazine mag = new Magazine
-                {
-                    Name = magazine.Name,
-                    Description = magazine.Description,
-                    Genre = magazine.Genre,
-                    Price = magazine.Price,
-                    Publisher = magazine.Publisher
-                };
-
-                try
-                {
-                    db.Magazines.Add(mag);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                catch (Exception exception)
-                {
-
-                }
-            }
-
-            return View(magazine);
-        }
-
-        // GET: Magazines/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Magazine magazine = db.Magazines.Find(id);
-            if (magazine == null)
-            {
-                return HttpNotFound();
-            }
-            return View(magazine);
-        }
-
-        // POST: Magazines/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MID,Name,Description,Genre,Price,Publisher")] Magazine magazine)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(magazine).State = EntityState.Modified;
+                db.Publishers.Add(publisher);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(magazine);
+
+            return View(publisher);
         }
 
-        // GET: Magazines/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: Publishers/Edit/5
+        public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Magazine magazine = db.Magazines.Find(id);
-            if (magazine == null)
+            Publisher publisher = db.Publishers.Find(id);
+            if (publisher == null)
             {
                 return HttpNotFound();
             }
-            return View(magazine);
+            return View(publisher);
         }
 
-        // POST: Magazines/Delete/5
+        // POST: Publishers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Name,Address,City,State,Zipcode,Phone")] Publisher publisher)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(publisher).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(publisher);
+        }
+
+        // GET: Publishers/Delete/5
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Publisher publisher = db.Publishers.Find(id);
+            if (publisher == null)
+            {
+                return HttpNotFound();
+            }
+            return View(publisher);
+        }
+
+        // POST: Publishers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
-            Magazine magazine = db.Magazines.Find(id);
-            db.Magazines.Remove(magazine);
+            Publisher publisher = db.Publishers.Find(id);
+            db.Publishers.Remove(publisher);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
