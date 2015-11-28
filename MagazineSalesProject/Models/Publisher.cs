@@ -11,9 +11,11 @@ namespace MagazineSalesProject.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Publisher
     {
+        [Key]
         public string Name { get; set; }
         public string Address { get; set; }
         public string City { get; set; }

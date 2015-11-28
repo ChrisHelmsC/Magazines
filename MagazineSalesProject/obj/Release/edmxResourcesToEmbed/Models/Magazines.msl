@@ -44,6 +44,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Sellers">
+      <EntityTypeMapping TypeName="MagazineDataModel.Seller">
+        <MappingFragment StoreEntitySet="Seller">
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="SellerID" ColumnName="SellerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Invoices">
       <EntityTypeMapping TypeName="MagazineDataModel.Invoice">
         <MappingFragment StoreEntitySet="Invoice">
@@ -55,15 +64,6 @@
           <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
           <ScalarProperty Name="Total" ColumnName="Total" />
           <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Sellers">
-      <EntityTypeMapping TypeName="MagazineDataModel.Seller">
-        <MappingFragment StoreEntitySet="Seller">
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="SellerID" ColumnName="SellerID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

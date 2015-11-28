@@ -26,7 +26,7 @@
     <Property Name="CardNumber" Type="nchar" MaxLength="16" />
     <Property Name="ExpirationMonth" Type="int" />
     <Property Name="ExpirationYear" Type="int" />
-    <Property Name="SellerID" Type="int" Nullable="false" />
+    <Property Name="SellerID" Type="int" />
     <Property Name="Email" Type="nchar" MaxLength="60" />
     <Property Name="OrderDate" Type="date" />
   </EntityType>
@@ -104,7 +104,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_SELLER_CUSTOMER">
-    <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
+    <End Role="Seller" Type="Self.Seller" Multiplicity="0..1" />
     <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Seller">

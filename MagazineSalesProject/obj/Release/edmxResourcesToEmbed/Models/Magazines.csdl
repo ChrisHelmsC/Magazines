@@ -46,8 +46,8 @@
     <EntitySet Name="Genres" EntityType="Self.Genre" />
     <EntitySet Name="Magazines" EntityType="Self.Magazine" />
     <EntitySet Name="Publishers" EntityType="Self.Publisher" />
-    <EntitySet Name="Invoices" EntityType="MagazineDataModel.Invoice" />
     <EntitySet Name="Sellers" EntityType="MagazineDataModel.Seller" />
+    <EntitySet Name="Invoices" EntityType="MagazineDataModel.Invoice" />
     <AssociationSet Name="FK_CUSTOMER_INVOICE" Association="MagazineDataModel.FK_CUSTOMER_INVOICE">
       <End Role="Customer" EntitySet="Customers" />
       <End Role="Invoice" EntitySet="Invoices" />
@@ -61,6 +61,15 @@
       <End Role="Magazine" EntitySet="Magazines" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Seller">
+    <Key>
+      <PropertyRef Name="SellerID" />
+    </Key>
+    <Property Name="SellerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
+  </EntityType>
   <EntityType Name="Invoice">
     <Key>
       <PropertyRef Name="InvoiceNumber" />
@@ -70,21 +79,12 @@
     <Property Name="CardNumber" Type="String" MaxLength="16" FixedLength="true" Unicode="true" />
     <Property Name="ExpirationMonth" Type="Int32" />
     <Property Name="ExpirationYear" Type="Int32" />
-    <Property Name="SellerID" Type="Int32" Nullable="false" />
+    <Property Name="SellerID" Type="Int32" />
     <Property Name="Email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
     <Property Name="OrderDate" Type="DateTime" Precision="0" />
     <NavigationProperty Name="Customer" Relationship="MagazineDataModel.FK_CUSTOMER_INVOICE" FromRole="Invoice" ToRole="Customer" />
     <NavigationProperty Name="Seller" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Invoice" ToRole="Seller" />
     <NavigationProperty Name="Magazine" Relationship="MagazineDataModel.InvoiceContains" FromRole="Invoice" ToRole="Magazine" />
-  </EntityType>
-  <EntityType Name="Seller">
-    <Key>
-      <PropertyRef Name="SellerID" />
-    </Key>
-    <Property Name="SellerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-    <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-    <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
   </EntityType>
   <Association Name="FK_CUSTOMER_INVOICE">
     <End Type="MagazineDataModel.Customer" Role="Customer" Multiplicity="0..1" />
@@ -99,7 +99,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_SELLER_CUSTOMER">
-    <End Type="MagazineDataModel.Seller" Role="Seller" Multiplicity="1" />
+    <End Type="MagazineDataModel.Seller" Role="Seller" Multiplicity="0..1" />
     <End Type="MagazineDataModel.Invoice" Role="Invoice" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Seller">

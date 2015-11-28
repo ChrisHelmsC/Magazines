@@ -1,15 +1,15 @@
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\csc.exe
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\Microsoft.CSharp.Core.targets
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\Microsoft.VisualBasic.Core.targets
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\System.Collections.Immutable.dll
-C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\System.Reflection.Metadata.dll
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\vbc.exe
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\VBCSCompiler.exe
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\roslyn\System.Reflection.Metadata.dll
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\Microsoft.ApplicationInsights.Extensions.Intercept_x86.dll
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\Microsoft.ApplicationInsights.Extensions.Intercept_x64.dll
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\MagazineSalesProject.dll.config
@@ -76,6 +76,5 @@ C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\Magazi
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\obj\Debug\MagazineSalesProject.dll
-C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\obj\Debug\MagazineSalesProject.pdb
-C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\obj\Debug\MagazineSalesProject.csprojResolveAssemblyReference.cache
+C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\obj\Release\MagazineSalesProject.dll
+C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\obj\Release\MagazineSalesProject.pdb

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<MagazineSalesProject.Models.CustomerInvoice>
+
+@{
+    ViewBag.Title = "CustomerInfo";
+}
+
+<h2>CustomerInfo</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubscriptionsBought)
+        </th>
+    </tr>
+
+@{
+    var customer = Model.First();
+    <tr>
+        <td>
+            @Html.DisplayFor(model => customer.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => customer.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => customer.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => customer.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => customer.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => customer.SubscriptionsBought)
+        </td>
+    </tr>
+}
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoiceNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvoiceNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderDate)
+        </td>
+        <td>
+           @Html.DisplayFor(modelItem => item.Total)
+        </td>
+    </tr>
+    }
+</table>

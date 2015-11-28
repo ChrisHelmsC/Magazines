@@ -27,9 +27,9 @@ namespace MagazineSalesProject.Models
     
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
-        public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<Magazine> Magazines { get; set; }
         public virtual DbSet<Publisher> Publishers { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<Seller> Sellers { get; set; }
     }
 }

@@ -10,10 +10,11 @@
             <PropertyRef Name="Email" />
           </Key>
           <Property Name="Email" Type="nchar" MaxLength="60" Nullable="false" />
-          <Property Name="FirstName" Type="nchar" MaxLength="20" />
-          <Property Name="LastName" Type="nchar" MaxLength="20" />
-          <Property Name="Address" Type="nchar" MaxLength="40" />
+          <Property Name="FirstName" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="LastName" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Address" Type="nchar" MaxLength="40" Nullable="false" />
           <Property Name="City" Type="nchar" MaxLength="20" />
+          <Property Name="SubscriptionsBought" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Genre">
           <Key>
@@ -25,14 +26,21 @@
           <Key>
             <PropertyRef Name="InvoiceNumber" />
           </Key>
-          <Property Name="InvoiceNumber" Type="int" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Total" Type="decimal" Precision="10" Scale="2" />
           <Property Name="CardNumber" Type="nchar" MaxLength="16" />
           <Property Name="ExpirationMonth" Type="int" />
           <Property Name="ExpirationYear" Type="int" />
-          <Property Name="SellerID" Type="nchar" MaxLength="10" />
+          <Property Name="SellerID" Type="int" Nullable="false" />
           <Property Name="Email" Type="nchar" MaxLength="60" />
           <Property Name="OrderDate" Type="date" />
+        </EntityType>
+        <EntityType Name="InvoiceContains">
+          <Key>
+            <PropertyRef Name="InvoiceNumber" />
+          </Key>
+          <Property Name="InvoiceNumber" Type="int" Nullable="false" />
+          <Property Name="MID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Magazine">
           <Key>
@@ -56,19 +64,11 @@
           <Property Name="Zipcode" Type="nchar" MaxLength="50" />
           <Property Name="Phone" Type="nchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="SaleCart">
-          <Key>
-            <PropertyRef Name="InvoiceNumber" />
-            <PropertyRef Name="MID" />
-          </Key>
-          <Property Name="InvoiceNumber" Type="int" Nullable="false" />
-          <Property Name="MID" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Seller">
           <Key>
             <PropertyRef Name="SellerID" />
           </Key>
-          <Property Name="SellerID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="SellerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="nchar" MaxLength="20" />
           <Property Name="LastName" Type="nchar" MaxLength="20" />
         </EntityType>
@@ -84,32 +84,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_INVOICE_CART">
+        <Association Name="FK_INVOICE_CONTAINS">
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
-          <End Role="SaleCart" Type="Self.SaleCart" Multiplicity="*" />
+          <End Role="InvoiceContains" Type="Self.InvoiceContains" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Invoice">
               <PropertyRef Name="InvoiceNumber" />
             </Principal>
-            <Dependent Role="SaleCart">
+            <Dependent Role="InvoiceContains">
               <PropertyRef Name="InvoiceNumber" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MAGAZINE_CART">
+        <Association Name="FK_MID_CONTAINS">
           <End Role="Magazine" Type="Self.Magazine" Multiplicity="1" />
-          <End Role="SaleCart" Type="Self.SaleCart" Multiplicity="*" />
+          <End Role="InvoiceContains" Type="Self.InvoiceContains" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Magazine">
               <PropertyRef Name="MID" />
             </Principal>
-            <Dependent Role="SaleCart">
+            <Dependent Role="InvoiceContains">
               <PropertyRef Name="MID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SELLER_CUSTOMER">
-          <End Role="Seller" Type="Self.Seller" Multiplicity="0..1" />
+          <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Seller">
@@ -124,21 +124,21 @@
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genre" EntityType="Self.Genre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceContains" EntityType="Self.InvoiceContains" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Magazine" EntityType="Self.Magazine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Publisher" EntityType="Self.Publisher" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SaleCart" EntityType="Self.SaleCart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CUSTOMER_INVOICE" Association="Self.FK_CUSTOMER_INVOICE">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
-          <AssociationSet Name="FK_INVOICE_CART" Association="Self.FK_INVOICE_CART">
+          <AssociationSet Name="FK_INVOICE_CONTAINS" Association="Self.FK_INVOICE_CONTAINS">
             <End Role="Invoice" EntitySet="Invoice" />
-            <End Role="SaleCart" EntitySet="SaleCart" />
+            <End Role="InvoiceContains" EntitySet="InvoiceContains" />
           </AssociationSet>
-          <AssociationSet Name="FK_MAGAZINE_CART" Association="Self.FK_MAGAZINE_CART">
+          <AssociationSet Name="FK_MID_CONTAINS" Association="Self.FK_MID_CONTAINS">
             <End Role="Magazine" EntitySet="Magazine" />
-            <End Role="SaleCart" EntitySet="SaleCart" />
+            <End Role="InvoiceContains" EntitySet="InvoiceContains" />
           </AssociationSet>
           <AssociationSet Name="FK_SELLER_CUSTOMER" Association="Self.FK_SELLER_CUSTOMER">
             <End Role="Seller" EntitySet="Seller" />
@@ -154,33 +154,18 @@
             <PropertyRef Name="Email" />
           </Key>
           <Property Name="Email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="City" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Invoices" Relationship="Self.FK_CUSTOMER_INVOICE" FromRole="Customer" ToRole="Invoice" />
+          <Property Name="SubscriptionsBought" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_CUSTOMER_INVOICE" FromRole="Customer" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="Genre">
           <Key>
             <PropertyRef Name="Name" />
           </Key>
           <Property Name="Name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Invoice">
-          <Key>
-            <PropertyRef Name="InvoiceNumber" />
-          </Key>
-          <Property Name="InvoiceNumber" Type="Int32" Nullable="false" />
-          <Property Name="Total" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="CardNumber" Type="String" MaxLength="16" FixedLength="true" Unicode="true" />
-          <Property Name="ExpirationMonth" Type="Int32" />
-          <Property Name="ExpirationYear" Type="Int32" />
-          <Property Name="SellerID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="OrderDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_CUSTOMER_INVOICE" FromRole="Invoice" ToRole="Customer" />
-          <NavigationProperty Name="Seller" Relationship="Self.FK_SELLER_CUSTOMER" FromRole="Invoice" ToRole="Seller" />
-          <NavigationProperty Name="Magazines" Relationship="Self.SaleCart" FromRole="Invoice" ToRole="Magazine" />
         </EntityType>
         <EntityType Name="Magazine">
           <Key>
@@ -192,7 +177,7 @@
           <Property Name="Genre" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="Publisher" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Invoices" Relationship="Self.SaleCart" FromRole="Magazine" ToRole="Invoice" />
+          <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.InvoiceContains" FromRole="Magazine" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="Publisher">
           <Key>
@@ -205,18 +190,54 @@
           <Property Name="Zipcode" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
         </EntityType>
+        <EntityContainer Name="MagazineDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Genres" EntityType="Self.Genre" />
+          <EntitySet Name="Magazines" EntityType="Self.Magazine" />
+          <EntitySet Name="Publishers" EntityType="Self.Publisher" />
+          <EntitySet Name="Invoices" EntityType="MagazineDataModel.Invoice" />
+          <EntitySet Name="Sellers" EntityType="MagazineDataModel.Seller" />
+          <AssociationSet Name="FK_CUSTOMER_INVOICE" Association="MagazineDataModel.FK_CUSTOMER_INVOICE">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SELLER_CUSTOMER" Association="MagazineDataModel.FK_SELLER_CUSTOMER">
+            <End Role="Seller" EntitySet="Sellers" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="InvoiceContains" Association="MagazineDataModel.InvoiceContains">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="Magazine" EntitySet="Magazines" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceNumber" />
+          </Key>
+          <Property Name="InvoiceNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Total" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="CardNumber" Type="String" MaxLength="16" FixedLength="true" Unicode="true" />
+          <Property Name="ExpirationMonth" Type="Int32" />
+          <Property Name="ExpirationYear" Type="Int32" />
+          <Property Name="SellerID" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="OrderDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Customer" Relationship="MagazineDataModel.FK_CUSTOMER_INVOICE" FromRole="Invoice" ToRole="Customer" />
+          <NavigationProperty Name="Seller" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Invoice" ToRole="Seller" />
+          <NavigationProperty Name="Magazine" Relationship="MagazineDataModel.InvoiceContains" FromRole="Invoice" ToRole="Magazine" />
+        </EntityType>
         <EntityType Name="Seller">
           <Key>
             <PropertyRef Name="SellerID" />
           </Key>
-          <Property Name="SellerID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="SellerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Invoices" Relationship="Self.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
+          <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
         </EntityType>
         <Association Name="FK_CUSTOMER_INVOICE">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <End Type="MagazineDataModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="MagazineDataModel.Invoice" Role="Invoice" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
               <PropertyRef Name="Email" />
@@ -227,8 +248,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SELLER_CUSTOMER">
-          <End Role="Seller" Type="Self.Seller" Multiplicity="0..1" />
-          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <End Type="MagazineDataModel.Seller" Role="Seller" Multiplicity="1" />
+          <End Type="MagazineDataModel.Invoice" Role="Invoice" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Seller">
               <PropertyRef Name="SellerID" />
@@ -238,30 +259,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="SaleCart">
-          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
-          <End Role="Magazine" Type="Self.Magazine" Multiplicity="*" />
+        <Association Name="InvoiceContains">
+          <End Type="MagazineDataModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <End Type="MagazineDataModel.Magazine" Role="Magazine" Multiplicity="0..1" />
         </Association>
-        <EntityContainer Name="MagazineDataEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Customers" EntityType="Self.Customer" />
-          <EntitySet Name="Genres" EntityType="Self.Genre" />
-          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
-          <EntitySet Name="Magazines" EntityType="Self.Magazine" />
-          <EntitySet Name="Publishers" EntityType="Self.Publisher" />
-          <EntitySet Name="Sellers" EntityType="Self.Seller" />
-          <AssociationSet Name="FK_CUSTOMER_INVOICE" Association="Self.FK_CUSTOMER_INVOICE">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Invoice" EntitySet="Invoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SELLER_CUSTOMER" Association="Self.FK_SELLER_CUSTOMER">
-            <End Role="Seller" EntitySet="Sellers" />
-            <End Role="Invoice" EntitySet="Invoices" />
-          </AssociationSet>
-          <AssociationSet Name="SaleCart" Association="Self.SaleCart">
-            <End Role="Invoice" EntitySet="Invoices" />
-            <End Role="Magazine" EntitySet="Magazines" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -271,6 +272,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="MagazineDataModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="SubscriptionsBought" ColumnName="SubscriptionsBought" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -283,20 +285,6 @@
             <EntityTypeMapping TypeName="MagazineDataModel.Genre">
               <MappingFragment StoreEntitySet="Genre">
                 <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Invoices">
-            <EntityTypeMapping TypeName="MagazineDataModel.Invoice">
-              <MappingFragment StoreEntitySet="Invoice">
-                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
-                <ScalarProperty Name="ExpirationMonth" ColumnName="ExpirationMonth" />
-                <ScalarProperty Name="ExpirationYear" ColumnName="ExpirationYear" />
-                <ScalarProperty Name="SellerID" ColumnName="SellerID" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -324,24 +312,39 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Sellers">
-            <EntityTypeMapping TypeName="MagazineDataModel.Seller">
-              <MappingFragment StoreEntitySet="Seller">
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="MagazineDataModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="SellerID" ColumnName="SellerID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="ExpirationYear" ColumnName="ExpirationYear" />
+                <ScalarProperty Name="ExpirationMonth" ColumnName="ExpirationMonth" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="SaleCart" TypeName="MagazineDataModel.SaleCart" StoreEntitySet="SaleCart">
-            <EndProperty Name="Invoice">
-              <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-            </EndProperty>
+          <EntitySetMapping Name="Sellers">
+            <EntityTypeMapping TypeName="MagazineDataModel.Seller">
+              <MappingFragment StoreEntitySet="Seller">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="SellerID" ColumnName="SellerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="InvoiceContains" TypeName="MagazineDataModel.InvoiceContains" StoreEntitySet="InvoiceContains">
             <EndProperty Name="Magazine">
               <ScalarProperty Name="MID" ColumnName="MID" />
             </EndProperty>
+            <EndProperty Name="Invoice">
+              <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+            </EndProperty>
+            <Condition ColumnName="MID" IsNull="false" />
           </AssociationSetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
