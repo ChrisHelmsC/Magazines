@@ -81,3 +81,6 @@
     </tr>
     }
 </table>
+
+@Html.ActionLink("Sell Customer Magazines", "Sell", "Customers", new MagazineSalesProject.Models.EmailSeller{ Email = Model.First().Email.Trim(),
+SellerID = 1, magList = new List<MagazineSalesProject.Models.Magazine>(), total = 0},null)

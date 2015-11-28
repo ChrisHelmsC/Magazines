@@ -1,0 +1,64 @@
+﻿@model MagazineSalesProject.Models.EmailSeller
+
+@{
+    ViewBag.Title = "Sell";
+}
+
+<h2 style="margin-top:5%; margin-bottom:10%;">Selling to @Html.DisplayFor(model => model.Email)</h2>
+
+<fieldset>
+    <legend>Sell Magazines</legend>
+    @using (Ajax.BeginForm("Sell", "Customers",
+                                new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
+    {
+        <div id="divInterestDeatils"></div>
+
+           @Html.Label("New Magazine To Add")
+           @Html.TextBox("newMag")
+
+        <button>Add</button>
+    }
+</fieldset>
+
+<table class="table" style="margin-bottom:10%;">
+    <tr>
+        <td>
+            @Html.DisplayNameFor(model => model.magList.First().Name)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.magList.First().Description)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.magList.First().Price)
+        </td>
+    </tr>
+
+    @foreach (var item in Model.magList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Price)
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td>Total</td>
+        <td></td>
+        <td>@Html.DisplayFor(model => model.total)</td>
+    </tr>
+
+    <tr>
+        <td>
+            @Html.ActionLink("Submit Sale", "Sell", new { id = Model.Email.Trim() })
+        </td>
+    </tr>
+
+</table>
+

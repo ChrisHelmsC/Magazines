@@ -14,6 +14,8 @@ namespace MagazineSalesProject.Controllers
     {
         private MagazineDataEntities db = new MagazineDataEntities();
 
+        private static EmailSeller ES;
+
         // GET: Customers
         public ActionResult Index()
         {
@@ -34,6 +36,31 @@ namespace MagazineSalesProject.Controllers
             //customerList.Add(matchingCustomer);
 
             return View(matchingCustomer.ToList());
+        }
+
+        public ActionResult Sell(EmailSeller token)
+        {
+            if (token.Email != null)
+            {
+                ES = token;
+            }
+            else
+            {
+                var magName = Convert.ToString(Request["newMag"].ToString());
+
+                var newMagazine = from a in db.Magazines
+                                  where a.Name == magName
+                                  select a;
+
+                var newFirstMag = newMagazine.First();
+
+                ES.magList.Add(newFirstMag);
+                ES.total = ES.total + newFirstMag.Price;
+                return View(ES);
+            }
+    
+
+            return View(ES);
         }
 
         // GET: Customers/Details/5
