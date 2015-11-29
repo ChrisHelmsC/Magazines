@@ -22,20 +22,56 @@ namespace MagazineSalesProject.Controllers
             return View(db.Customers.ToList());
         }
 
+        public ActionResult CompleteCheckout()
+        {
+            string cardNum = Convert.ToString(Request["cardNum"].ToString());
+            int expMonth = Convert.ToInt32(Request["cardExpMo"].ToString());
+            int expYear = Convert.ToInt32(Request["cardExpYe"].ToString());
+
+            var custInvoice = new Invoice {Total = ES.total, CardNumber = cardNum, ExpirationMonth = expMonth, ExpirationYear = expYear, SellerID=ES.SellerID, Email = ES.Email, OrderDate = DateTime.Now};
+            Invoice newInvoice = db.Invoices.Add(custInvoice);
+            db.SaveChanges();
+
+            var customerList = from m in db.Customers
+                           where m.Email == ES.Email
+                           select m;
+            
+
+            foreach (var item in ES.magList)
+            {
+                db.InvoiceContains.Add(new InvoiceContain { InvoiceNumber = newInvoice.InvoiceNumber, MID =  item.MID});
+                customerList.First().SubscriptionsBought = customerList.First().SubscriptionsBought + 1;
+                db.SaveChanges();
+            }
+
+            CompleteInvoice CI = new CompleteInvoice {inv = newInvoice, magList = ES.magList };
+
+            return View(CI);            
+        }
+
+        public ActionResult BillingInfo(EmailSeller ESeller)
+        {
+            return View();
+        }
+
         public ActionResult CustomerInfo()
         {
             string email = Convert.ToString(Request["custEmail"].ToString());
 
-            var matchingCustomer = from m in db.Customers join n in db.Invoices on m.Email equals n.Email
-                                   where m.Email == email
-                                   select new CustomerInvoice() {Email = m.Email, FirstName= m.FirstName, LastName=m.LastName, Address=m.Address,
-                                   City = m.City, SubscriptionsBought=m.SubscriptionsBought, InvoiceNumber=n.InvoiceNumber, Total=n.Total, CardNumber=n.CardNumber,
-                                   ExpirationMonth = n.ExpirationMonth, ExpirationYear = n.ExpirationYear, SellerID = n.SellerID, OrderDate = n.OrderDate}; 
+            var custList = from n in db.Customers
+                           where n.Email == email
+                           select n;
 
-            //List<CustomerInvoice> customerList = new List<CustomerInvoice>();
-            //customerList.Add(matchingCustomer);
+            CustomerInvoice CI = new CustomerInvoice();
+            CI.cust = custList.First();
 
-            return View(matchingCustomer.ToList());
+            var invoiceList = from m in db.Invoices
+                              where m.Email == email
+                              select m;
+
+            CI.invoices = invoiceList.ToList();
+
+            return View(CI);
         }
 
         public ActionResult Sell(EmailSeller token)

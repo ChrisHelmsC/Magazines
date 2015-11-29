@@ -44,6 +44,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Sellers">
+      <EntityTypeMapping TypeName="MagazineDataModel.Seller">
+        <MappingFragment StoreEntitySet="Seller">
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="SellerID" ColumnName="SellerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Invoices">
       <EntityTypeMapping TypeName="MagazineDataModel.Invoice">
         <MappingFragment StoreEntitySet="Invoice">
@@ -58,23 +67,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Sellers">
-      <EntityTypeMapping TypeName="MagazineDataModel.Seller">
-        <MappingFragment StoreEntitySet="Seller">
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="SellerID" ColumnName="SellerID" />
+    <EntitySetMapping Name="InvoiceContains">
+      <EntityTypeMapping TypeName="MagazineDataModel.InvoiceContain">
+        <MappingFragment StoreEntitySet="InvoiceContains">
+          <ScalarProperty Name="ContainsKey" ColumnName="ContainsKey" />
+          <ScalarProperty Name="MID" ColumnName="MID" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="InvoiceContains" TypeName="MagazineDataModel.InvoiceContains" StoreEntitySet="InvoiceContains">
-      <EndProperty Name="Magazine">
-        <ScalarProperty Name="MID" ColumnName="MID" />
-      </EndProperty>
-      <EndProperty Name="Invoice">
-        <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-      </EndProperty>
-      <Condition ColumnName="MID" IsNull="false" />
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

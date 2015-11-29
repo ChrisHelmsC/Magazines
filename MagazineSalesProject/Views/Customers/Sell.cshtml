@@ -12,11 +12,15 @@
                                 new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
     {
         <div id="divInterestDeatils"></div>
-
-           @Html.Label("New Magazine To Add")
-           @Html.TextBox("newMag")
-
-        <button>Add</button>
+        <ul>
+            <li>
+                 @Html.Label("New Magazine To Add")
+                 @Html.TextBox("newMag")
+            </li>
+            <li>
+                <button>Add</button>
+           </li>
+        </ul>
     }
 </fieldset>
 
@@ -56,7 +60,7 @@
 
     <tr>
         <td>
-            @Html.ActionLink("Submit Sale", "Sell", new { id = Model.Email.Trim() })
+            @Html.ActionLink("Finish and Go To Billing Info", "BillingInfo", "Customers", Model, null)
         </td>
     </tr>
 

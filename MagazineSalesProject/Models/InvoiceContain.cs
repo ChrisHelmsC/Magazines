@@ -12,8 +12,13 @@ namespace MagazineSalesProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Genre
+    public partial class InvoiceContain
     {
-        public string Name { get; set; }
+        public int InvoiceNumber { get; set; }
+        public int MID { get; set; }
+        public int ContainsKey { get; set; }
+    
+        public virtual Invoice Invoice { get; set; }
+        public virtual Magazine Magazine { get; set; }
     }
 }

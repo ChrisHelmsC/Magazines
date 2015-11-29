@@ -11,11 +11,15 @@ namespace MagazineSalesProject.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Invoice
     {
-        [Key]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Invoice()
+        {
+            this.InvoiceContains = new HashSet<InvoiceContain>();
+        }
+    
         public int InvoiceNumber { get; set; }
         public Nullable<decimal> Total { get; set; }
         public string CardNumber { get; set; }
@@ -23,10 +27,11 @@ namespace MagazineSalesProject.Models
         public Nullable<int> ExpirationYear { get; set; }
         public int SellerID { get; set; }
         public string Email { get; set; }
-        public Nullable<System.DateTime> OrderDate { get; set; }
+        public System.DateTime OrderDate { get; set; }
     
         public virtual Customer Customer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceContain> InvoiceContains { get; set; }
         public virtual Seller Seller { get; set; }
-        public virtual Magazine Magazine { get; set; }
     }
 }

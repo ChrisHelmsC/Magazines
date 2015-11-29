@@ -1,35 +1,35 @@
-﻿@model IEnumerable<MagazineSalesProject.Models.CustomerInvoice>
+﻿@model MagazineSalesProject.Models.CustomerInvoice
 
 @{
     ViewBag.Title = "CustomerInfo";
 }
 
-<h2>CustomerInfo</h2>
+<h2>Customer Information</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.cust.Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.cust.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.cust.LastName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.cust.Address)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayNameFor(model => model.cust.City)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubscriptionsBought)
+            @Html.DisplayNameFor(model => model.cust.SubscriptionsBought)
         </th>
     </tr>
 
 @{
-    var customer = Model.First();
+    var customer = Model.cust;
     <tr>
         <td>
             @Html.DisplayFor(model => customer.Email)
@@ -53,20 +53,22 @@
 }
 </table>
 
+<h3  style="margin-top:10%;">Invoice History</h3>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.InvoiceNumber)
+            @Html.DisplayNameFor(model => model.invoices.First().InvoiceNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrderDate)
+            @Html.DisplayNameFor(model => model.invoices.First().OrderDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Total)
+            @Html.DisplayNameFor(model => model.invoices.First().Total)
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.invoices)
     {
     <tr>
         <td>
@@ -82,5 +84,5 @@
     }
 </table>
 
-@Html.ActionLink("Sell Customer Magazines", "Sell", "Customers", new MagazineSalesProject.Models.EmailSeller{ Email = Model.First().Email.Trim(),
+@Html.ActionLink("Sell Customer Magazines", "Sell", "Customers", new MagazineSalesProject.Models.EmailSeller{ Email = Model.cust.Email.Trim(),
 SellerID = 1, magList = new List<MagazineSalesProject.Models.Magazine>(), total = 0},null)

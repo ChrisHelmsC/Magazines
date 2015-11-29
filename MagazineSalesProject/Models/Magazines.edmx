@@ -33,14 +33,15 @@
           <Property Name="ExpirationYear" Type="int" />
           <Property Name="SellerID" Type="int" Nullable="false" />
           <Property Name="Email" Type="nchar" MaxLength="60" />
-          <Property Name="OrderDate" Type="date" />
+          <Property Name="OrderDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="InvoiceContains">
           <Key>
-            <PropertyRef Name="InvoiceNumber" />
+            <PropertyRef Name="ContainsKey" />
           </Key>
           <Property Name="InvoiceNumber" Type="int" Nullable="false" />
           <Property Name="MID" Type="int" Nullable="false" />
+          <Property Name="ContainsKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Magazine">
           <Key>
@@ -86,7 +87,7 @@
         </Association>
         <Association Name="FK_INVOICE_CONTAINS">
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
-          <End Role="InvoiceContains" Type="Self.InvoiceContains" Multiplicity="0..1" />
+          <End Role="InvoiceContains" Type="Self.InvoiceContains" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Invoice">
               <PropertyRef Name="InvoiceNumber" />
@@ -177,7 +178,7 @@
           <Property Name="Genre" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="Publisher" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.InvoiceContains" FromRole="Magazine" ToRole="Invoice" />
+          <NavigationProperty Name="InvoiceContains" Relationship="MagazineDataModel.FK_MID_CONTAINS" FromRole="Magazine" ToRole="InvoiceContain" />
         </EntityType>
         <EntityType Name="Publisher">
           <Key>
@@ -195,21 +196,35 @@
           <EntitySet Name="Genres" EntityType="Self.Genre" />
           <EntitySet Name="Magazines" EntityType="Self.Magazine" />
           <EntitySet Name="Publishers" EntityType="Self.Publisher" />
-          <EntitySet Name="Invoices" EntityType="MagazineDataModel.Invoice" />
           <EntitySet Name="Sellers" EntityType="MagazineDataModel.Seller" />
+          <EntitySet Name="Invoices" EntityType="MagazineDataModel.Invoice" />
+          <EntitySet Name="InvoiceContains" EntityType="MagazineDataModel.InvoiceContain" />
           <AssociationSet Name="FK_CUSTOMER_INVOICE" Association="MagazineDataModel.FK_CUSTOMER_INVOICE">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVOICE_CONTAINS" Association="MagazineDataModel.FK_INVOICE_CONTAINS">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="InvoiceContain" EntitySet="InvoiceContains" />
           </AssociationSet>
           <AssociationSet Name="FK_SELLER_CUSTOMER" Association="MagazineDataModel.FK_SELLER_CUSTOMER">
             <End Role="Seller" EntitySet="Sellers" />
             <End Role="Invoice" EntitySet="Invoices" />
           </AssociationSet>
-          <AssociationSet Name="InvoiceContains" Association="MagazineDataModel.InvoiceContains">
-            <End Role="Invoice" EntitySet="Invoices" />
+          <AssociationSet Name="FK_MID_CONTAINS" Association="MagazineDataModel.FK_MID_CONTAINS">
             <End Role="Magazine" EntitySet="Magazines" />
+            <End Role="InvoiceContain" EntitySet="InvoiceContains" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Seller">
+          <Key>
+            <PropertyRef Name="SellerID" />
+          </Key>
+          <Property Name="SellerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
+        </EntityType>
         <EntityType Name="Invoice">
           <Key>
             <PropertyRef Name="InvoiceNumber" />
@@ -221,19 +236,20 @@
           <Property Name="ExpirationYear" Type="Int32" />
           <Property Name="SellerID" Type="Int32" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="OrderDate" Type="DateTime" Precision="0" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="MagazineDataModel.FK_CUSTOMER_INVOICE" FromRole="Invoice" ToRole="Customer" />
+          <NavigationProperty Name="InvoiceContains" Relationship="MagazineDataModel.FK_INVOICE_CONTAINS" FromRole="Invoice" ToRole="InvoiceContain" />
           <NavigationProperty Name="Seller" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Invoice" ToRole="Seller" />
-          <NavigationProperty Name="Magazine" Relationship="MagazineDataModel.InvoiceContains" FromRole="Invoice" ToRole="Magazine" />
         </EntityType>
-        <EntityType Name="Seller">
+        <EntityType Name="InvoiceContain">
           <Key>
-            <PropertyRef Name="SellerID" />
+            <PropertyRef Name="ContainsKey" />
           </Key>
-          <Property Name="SellerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
+          <Property Name="InvoiceNumber" Type="Int32" Nullable="false" />
+          <Property Name="MID" Type="Int32" Nullable="false" />
+          <Property Name="ContainsKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Invoice" Relationship="MagazineDataModel.FK_INVOICE_CONTAINS" FromRole="InvoiceContain" ToRole="Invoice" />
+          <NavigationProperty Name="Magazine" Relationship="MagazineDataModel.FK_MID_CONTAINS" FromRole="InvoiceContain" ToRole="Magazine" />
         </EntityType>
         <Association Name="FK_CUSTOMER_INVOICE">
           <End Type="MagazineDataModel.Customer" Role="Customer" Multiplicity="0..1" />
@@ -244,6 +260,18 @@
             </Principal>
             <Dependent Role="Invoice">
               <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVOICE_CONTAINS">
+          <End Type="MagazineDataModel.Invoice" Role="Invoice" Multiplicity="1" />
+          <End Type="MagazineDataModel.InvoiceContain" Role="InvoiceContain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceNumber" />
+            </Principal>
+            <Dependent Role="InvoiceContain">
+              <PropertyRef Name="InvoiceNumber" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -259,9 +287,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="InvoiceContains">
-          <End Type="MagazineDataModel.Invoice" Role="Invoice" Multiplicity="*" />
-          <End Type="MagazineDataModel.Magazine" Role="Magazine" Multiplicity="0..1" />
+        <Association Name="FK_MID_CONTAINS">
+          <End Type="MagazineDataModel.Magazine" Role="Magazine" Multiplicity="1" />
+          <End Type="MagazineDataModel.InvoiceContain" Role="InvoiceContain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Magazine">
+              <PropertyRef Name="MID" />
+            </Principal>
+            <Dependent Role="InvoiceContain">
+              <PropertyRef Name="MID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -312,6 +348,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Sellers">
+            <EntityTypeMapping TypeName="MagazineDataModel.Seller">
+              <MappingFragment StoreEntitySet="Seller">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="SellerID" ColumnName="SellerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="MagazineDataModel.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
@@ -326,24 +371,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Sellers">
-            <EntityTypeMapping TypeName="MagazineDataModel.Seller">
-              <MappingFragment StoreEntitySet="Seller">
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="SellerID" ColumnName="SellerID" />
+          <EntitySetMapping Name="InvoiceContains">
+            <EntityTypeMapping TypeName="MagazineDataModel.InvoiceContain">
+              <MappingFragment StoreEntitySet="InvoiceContains">
+                <ScalarProperty Name="ContainsKey" ColumnName="ContainsKey" />
+                <ScalarProperty Name="MID" ColumnName="MID" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="InvoiceContains" TypeName="MagazineDataModel.InvoiceContains" StoreEntitySet="InvoiceContains">
-            <EndProperty Name="Magazine">
-              <ScalarProperty Name="MID" ColumnName="MID" />
-            </EndProperty>
-            <EndProperty Name="Invoice">
-              <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-            </EndProperty>
-            <Condition ColumnName="MID" IsNull="false" />
-          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

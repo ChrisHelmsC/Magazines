@@ -1,0 +1,46 @@
+﻿@model MagazineSalesProject.Models.CompleteInvoice
+@{
+    ViewBag.Title = "CompleteCheckout";
+}
+
+<h2>Final Invoice</h2>
+<h3>Invoice Number: @Model.inv.InvoiceNumber</h3>
+<p>Placed @Model.inv.OrderDate.ToString()</p>
+
+<h2>Order Summary</h2>
+<table class="table" style="margin-bottom:10%;">
+    <tr>
+        <td>
+            @Html.DisplayNameFor(model => model.magList.First().Name)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.magList.First().Description)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.magList.First().Price)
+        </td>
+    </tr>
+
+    @foreach (var item in Model.magList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Price)
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td>Total</td>
+        <td></td>
+        <td>@Html.DisplayFor(model => model.inv.Total)</td>
+    </tr>
+</table>
+@Html.ActionLink("Return to Home", "Index", "Home")
+

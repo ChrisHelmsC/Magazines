@@ -11,8 +11,7 @@ namespace MagazineSalesProject.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Seller
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +20,6 @@ namespace MagazineSalesProject.Models
             this.Invoices = new HashSet<Invoice>();
         }
     
-        [Key]
         public int SellerID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

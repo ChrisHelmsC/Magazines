@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "BillingInfo";
+}
+
+<h2>Customer Billing Information</h2>
+
+<fieldset>
+    <legend>Sell Magazines</legend>
+    @using (Ajax.BeginForm("CompleteCheckout", "Customers",
+                                        new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
+    {
+        <div id="divInterestDeatils"></div>
+        <ul>
+            <li>
+                @Html.Label("Customer Card Number")
+                @Html.TextBox("cardNum")
+            </li>
+            <li>
+                @Html.Label("Card Expiration Month")
+                @Html.TextBox("cardExpMo")
+            </li>
+            <li>
+                @Html.Label("Card Expiration Year")
+                @Html.TextBox("cardExpYe")
+            </li>
+            <li>
+                <button>Submit and Checkout</button>
+            </li>
+        </ul>
+    }
+</fieldset>
+

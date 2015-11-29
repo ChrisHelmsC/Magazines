@@ -28,14 +28,15 @@
     <Property Name="ExpirationYear" Type="int" />
     <Property Name="SellerID" Type="int" Nullable="false" />
     <Property Name="Email" Type="nchar" MaxLength="60" />
-    <Property Name="OrderDate" Type="date" />
+    <Property Name="OrderDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="InvoiceContains">
     <Key>
-      <PropertyRef Name="InvoiceNumber" />
+      <PropertyRef Name="ContainsKey" />
     </Key>
     <Property Name="InvoiceNumber" Type="int" Nullable="false" />
     <Property Name="MID" Type="int" Nullable="false" />
+    <Property Name="ContainsKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="Magazine">
     <Key>
@@ -81,7 +82,7 @@
   </Association>
   <Association Name="FK_INVOICE_CONTAINS">
     <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
-    <End Role="InvoiceContains" Type="Self.InvoiceContains" Multiplicity="0..1" />
+    <End Role="InvoiceContains" Type="Self.InvoiceContains" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Invoice">
         <PropertyRef Name="InvoiceNumber" />

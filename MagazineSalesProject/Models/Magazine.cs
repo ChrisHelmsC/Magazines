@@ -11,17 +11,15 @@ namespace MagazineSalesProject.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Magazine
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Magazine()
         {
-            this.Invoices = new HashSet<Invoice>();
+            this.InvoiceContains = new HashSet<InvoiceContain>();
         }
-        
-        [Key]
+    
         public int MID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -30,6 +28,6 @@ namespace MagazineSalesProject.Models
         public string Publisher { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<InvoiceContain> InvoiceContains { get; set; }
     }
 }
