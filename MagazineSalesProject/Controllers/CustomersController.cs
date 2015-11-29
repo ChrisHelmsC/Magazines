@@ -49,6 +49,21 @@ namespace MagazineSalesProject.Controllers
             return View(CI);            
         }
 
+        public ActionResult InvoiceDetails(Invoice inv)
+        {
+            CompleteInvoice cInv = new CompleteInvoice();
+
+            cInv.inv = inv;
+
+            var magazineList = from n in db.InvoiceContains
+                               join m in db.Magazines on n.MID equals m.MID
+                               where n.InvoiceNumber == inv.InvoiceNumber
+                               select m;
+            cInv.magList = magazineList.ToList();
+
+            return View(cInv);
+        }
+
         public ActionResult BillingInfo(EmailSeller ESeller)
         {
             return View();
@@ -72,6 +87,24 @@ namespace MagazineSalesProject.Controllers
             CI.invoices = invoiceList.ToList();
 
             return View(CI);
+        }
+
+        public ActionResult CustomerInfoString(string email)
+        {
+            var custList = from n in db.Customers
+                           where n.Email == email
+                           select n;
+
+            CustomerInvoice CI = new CustomerInvoice();
+            CI.cust = custList.First();
+
+            var invoiceList = from m in db.Invoices
+                              where m.Email == email
+                              select m;
+
+            CI.invoices = invoiceList.ToList();
+
+            return View("CustomerInfo", CI);
         }
 
         public ActionResult Sell(EmailSeller token)

@@ -344,6 +344,7 @@
     <Content Include="Views\Customers\Sell.cshtml" />
     <Content Include="Views\Customers\BillingInfo.cshtml" />
     <Content Include="Views\Customers\CompleteCheckout.cshtml" />
+    <Content Include="Views\Customers\InvoiceDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

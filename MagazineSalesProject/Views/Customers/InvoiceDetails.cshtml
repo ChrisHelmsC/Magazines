@@ -1,0 +1,60 @@
+﻿@model MagazineSalesProject.Models.CompleteInvoice
+
+@{
+    ViewBag.Title = "InvoiceDetails";
+}
+
+<h1>Invoice #@Model.inv.InvoiceNumber Details</h1>
+<h3>Order Date: @Model.inv.OrderDate</h3>
+<h4>Sold By Seller ID: @Model.inv.SellerID</h4>
+<h4>Customer Email: @Model.inv.Email</h4>
+
+
+<h2 style="margin-top:10%;">Magazine Subscriptions Purchased</h2>
+<table class="table">
+    <tr>
+        <td>
+            @Html.DisplayNameFor(model => model.magList.First().Name)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.magList.First().MID)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.magList.First().Publisher)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.magList.First().Price)
+        </td>
+    </tr>
+
+    @foreach(var item in Model.magList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.Name)
+           </td>
+            <td>
+                @Html.DisplayFor(model => item.MID)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Publisher)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Price)
+            </td>
+        </tr>
+    }
+    <tr>
+        <td>Total</td>
+        <td></td>
+        <td></td>
+        <td>@Model.inv.Total</td>
+    </tr>
+</table>
+
+@Html.ActionLink("Return to Customer Information", "CustomerInfoString", "Customers",new { email = Model.inv.Email.TrimEnd() }, null)
+
+
+
+
+

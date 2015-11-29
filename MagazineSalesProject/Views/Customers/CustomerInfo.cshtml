@@ -80,6 +80,9 @@
         <td>
            @Html.DisplayFor(modelItem => item.Total)
         </td>
+        <td>
+            @Html.ActionLink("Details", "InvoiceDetails", "Customers", item, null)
+        </td>
     </tr>
     }
 </table>
