@@ -74,6 +74,7 @@
     <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
     <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
     <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
   </EntityType>
   <EntityType Name="Invoice">
     <Key>

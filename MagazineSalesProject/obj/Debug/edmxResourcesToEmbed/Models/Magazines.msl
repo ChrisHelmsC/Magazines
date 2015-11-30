@@ -47,6 +47,7 @@
     <EntitySetMapping Name="Sellers">
       <EntityTypeMapping TypeName="MagazineDataModel.Seller">
         <MappingFragment StoreEntitySet="Seller">
+          <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="SellerID" ColumnName="SellerID" />

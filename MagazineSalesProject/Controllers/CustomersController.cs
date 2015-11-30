@@ -13,12 +13,54 @@ namespace MagazineSalesProject.Controllers
     public class CustomersController : Controller
     {
         private MagazineDataEntities db = new MagazineDataEntities();
-
+        private static int adminNum = 4;
         private static EmailSeller ES;
+        private static int sellerID = -1;
+
+        public ActionResult NewEmployee()
+        {
+            if(sellerID != adminNum)
+            {
+                return View("~/Views/Home/Index.cshtml", null);
+            }
+
+            return View();
+        }
+
+        public ActionResult Login()
+        {
+            int sid = Convert.ToInt32(Request["username"].ToString());
+            string pw = Convert.ToString(Request["password"].ToString());
+            LoginToken LT = new LoginToken();
+            LT.password = pw;
+            LT.sellerID = sid;
+
+            if((LT.password==null)||(LT.password==null))
+            {
+                return View("~/Views/Home/Login.cshtml", null);
+            }
+
+            var sellerList = from n in db.Sellers
+                             where n.SellerID == LT.sellerID
+                             where n.Password == LT.password
+                             select n;
+            if(sellerList.ToList().Count == 0)
+            {
+                return View("~/Views/Home/Login.cshtml", null);
+            }
+
+            sellerID = LT.sellerID;
+            return View("~/Views/Home/Index.cshtml", null);
+            
+        }
 
         // GET: Customers
         public ActionResult Index()
         {
+            if(sellerID == -1)
+            {
+                return View("~/Views/Home/Login.cshtml", null);
+            }
             return View(db.Customers.ToList());
         }
 
@@ -112,6 +154,7 @@ namespace MagazineSalesProject.Controllers
             if (token.Email != null)
             {
                 ES = token;
+                ES.SellerID = sellerID;
             }
             else
             {

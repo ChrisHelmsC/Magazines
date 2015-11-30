@@ -72,6 +72,7 @@
           <Property Name="SellerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="nchar" MaxLength="20" />
           <Property Name="LastName" Type="nchar" MaxLength="20" />
+          <Property Name="Password" Type="nchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <Association Name="FK_CUSTOMER_INVOICE">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
@@ -224,6 +225,7 @@
           <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Invoice">
           <Key>
@@ -351,6 +353,7 @@
           <EntitySetMapping Name="Sellers">
             <EntityTypeMapping TypeName="MagazineDataModel.Seller">
               <MappingFragment StoreEntitySet="Seller">
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="SellerID" ColumnName="SellerID" />

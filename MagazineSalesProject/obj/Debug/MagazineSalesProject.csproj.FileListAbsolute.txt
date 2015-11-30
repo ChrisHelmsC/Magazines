@@ -78,3 +78,4 @@ C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\Magazi
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\obj\Debug\MagazineSalesProject.dll
 C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\obj\Debug\MagazineSalesProject.pdb
+C:\Users\Chris\documents\visual studio 2015\Projects\MagazineSalesProject\MagazineSalesProject\obj\Debug\MagazineSalesProject.csprojResolveAssemblyReference.cache

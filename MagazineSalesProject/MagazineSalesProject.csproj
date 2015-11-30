@@ -203,6 +203,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\LoginToken.cs" />
     <Compile Include="Models\CompleteInvoice.cs" />
     <Compile Include="Models\EmailSeller.cs" />
     <Compile Include="Models\Customer.cs">
@@ -345,6 +346,7 @@
     <Content Include="Views\Customers\BillingInfo.cshtml" />
     <Content Include="Views\Customers\CompleteCheckout.cshtml" />
     <Content Include="Views\Customers\InvoiceDetails.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

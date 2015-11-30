@@ -67,6 +67,7 @@
     <Property Name="SellerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FirstName" Type="nchar" MaxLength="20" />
     <Property Name="LastName" Type="nchar" MaxLength="20" />
+    <Property Name="Password" Type="nchar" MaxLength="20" Nullable="false" />
   </EntityType>
   <Association Name="FK_CUSTOMER_INVOICE">
     <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />

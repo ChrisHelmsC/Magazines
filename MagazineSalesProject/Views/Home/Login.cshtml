@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<fieldset>
+    <legend>Enter Login Information</legend>
+    @using (Ajax.BeginForm("Login", "Customers",
+                                                new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
+    {
+        <div id="divInterestDeatils"></div>
+        <ul>
+            <li>
+                @Html.Label("Username")
+                @Html.TextBox("username")
+            </li>
+            <li>
+                @Html.Label("Password")
+                @Html.TextBox("password")
+            </li>
+            <li>
+                <button>Submit</button>
+            </li>
+        </ul>
+    }
+</fieldset>
+
