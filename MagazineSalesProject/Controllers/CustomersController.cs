@@ -131,16 +131,27 @@ namespace MagazineSalesProject.Controllers
 
         public ActionResult Login()
         {
-            int sid = Convert.ToInt32(Request["username"].ToString());
-            string pw = Convert.ToString(Request["password"].ToString());
-            LoginToken LT = new LoginToken();
-            LT.password = pw;
-            LT.sellerID = sid;
+            string sUN = Request["username"].ToString().Trim();
+            string sPW = Request["password"].ToString().Trim();
 
-            if((LT.password==null)||(LT.password==null))
+            // make sure username and password aren't blank
+            if (sUN.Length == 0 || sPW.Length == 0)
             {
                 return View("~/Views/Home/Login.cshtml", null);
             }
+
+            // make sure username is numeric and store it in sid
+            int sid;
+            bool IDisNumeric = int.TryParse(sUN, out sid);
+
+            if (!IDisNumeric)
+            {
+                return View("~/Views/Home/Login.cshtml", null);
+            }
+
+            LoginToken LT = new LoginToken();
+            LT.password = sPW;
+            LT.sellerID = sid;
 
             var sellerList = from n in db.Sellers
                              where n.SellerID == LT.sellerID
@@ -153,7 +164,6 @@ namespace MagazineSalesProject.Controllers
 
             sellerID = LT.sellerID;
             return View("~/Views/Home/Index.cshtml", null);
-            
         }
 
         // GET: Customers
@@ -168,9 +178,9 @@ namespace MagazineSalesProject.Controllers
 
         public ActionResult CompleteCheckout()
         {
-            string cardNum = Convert.ToString(Request["cardNum"].ToString());
-            int expMonth = Convert.ToInt32(Request["cardExpMo"].ToString());
-            int expYear = Convert.ToInt32(Request["cardExpYe"].ToString());
+            string cardNum = Convert.ToString(Request["cardNum"].ToString().Trim());
+            int expMonth = Convert.ToInt32(Request["cardExpMo"].ToString().Trim());
+            int expYear = Convert.ToInt32(Request["cardExpYe"].ToString().Trim());
 
             var custInvoice = new Invoice {Total = ES.total, CardNumber = cardNum, ExpirationMonth = expMonth, ExpirationYear = expYear, SellerID=ES.SellerID, Email = ES.Email, OrderDate = DateTime.Now};
             Invoice newInvoice = db.Invoices.Add(custInvoice);
@@ -215,7 +225,7 @@ namespace MagazineSalesProject.Controllers
 
         public ActionResult CustomerInfo()
         {
-            string email = Convert.ToString(Request["custEmail"].ToString());
+            string email = Convert.ToString(Request["custEmail"].ToString().Trim());
 
             var custList = from n in db.Customers
                            where n.Email == email
@@ -260,7 +270,7 @@ namespace MagazineSalesProject.Controllers
             }
             else
             {
-                var magName = Convert.ToString(Request["newMag"].ToString());
+                var magName = Convert.ToString(Request["newMag"].ToString().Trim());
 
                 var newMagazine = from a in db.Magazines
                                   where a.Name == magName
