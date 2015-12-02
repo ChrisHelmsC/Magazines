@@ -13,18 +13,120 @@ namespace MagazineSalesProject.Controllers
     public class CustomersController : Controller
     {
         private MagazineDataEntities db = new MagazineDataEntities();
-        private static int adminNum = 4;
         private static EmailSeller ES;
         private static int sellerID = -1;
 
-        public ActionResult NewEmployee()
+        public ActionResult AddMagazine()
         {
-            if(sellerID != adminNum)
+            String mName = Convert.ToString(Request["name"].ToString());
+            String mDescription = Convert.ToString(Request["description"].ToString());
+            String mGenre = Convert.ToString(Request["genre"].ToString());
+            decimal mPrice = Convert.ToDecimal(Request["price"].ToString());
+            String mPublisher =  Convert.ToString(Request["publisher"].ToString());
+
+            Magazine magazine = new Magazine {Name = mName, Description = mDescription, Genre = mGenre, Price = mPrice, Publisher = mPublisher};
+
+            var pubList = from n in db.Publishers
+                          where n.Name == magazine.Publisher
+                          select n;
+
+            var genreList = from m in db.Genres
+                            where m.Name == magazine.Genre
+                            select m;
+
+            if(!genreList.Any())
+            {
+                Genre gen = new Genre { Name = magazine.Genre };
+                db.Genres.Add(gen);
+                db.SaveChanges();
+            }
+
+            if (!pubList.Any())
+            {
+                Publisher pub = new Publisher { Name = magazine.Publisher };
+                db.Publishers.Add(pub);
+                db.SaveChanges();
+            }
+
+            db.Magazines.Add(magazine);
+            db.SaveChanges();
+
+            return View("~/Views/Magazines/Index.cshtml", null);
+        }
+
+        public ActionResult Logout()
+        {
+            sellerID = -1;
+            return View("~/Views/Home/Login.cshtml" ,null);
+        }
+
+        public ActionResult IndexMagazine()
+        {
+            var clear = from n in db.Sellers
+                        where n.SellerID == sellerID
+                        select n;
+
+            if (clear.First().clearance == 0)
             {
                 return View("~/Views/Home/Index.cshtml", null);
             }
 
-            return View();
+            return View("~/Views/Magazines/Index.cshtml", db.Magazines.ToList());
+        }
+
+        public ActionResult NewMagazine()
+        {
+            var clear = from n in db.Sellers
+                        where n.SellerID == sellerID
+                        select n;
+
+            if (clear.First().clearance == 0)
+            {
+                return View("~/Views/Home/Index.cshtml", null);
+            }
+
+            return View("~/Views/Magazines/Create.cshtml", null);
+        }
+
+        public ActionResult addSeller()
+        {
+            String fname = Convert.ToString(Request["firstName"].ToString());
+            String lname = Convert.ToString(Request["lastName"].ToString());
+            String password = Convert.ToString(Request["password"].ToString());
+            int clear = Convert.ToInt32(Request["clearance"].ToString());
+
+            db.Sellers.Add(new Seller { FirstName = fname, LastName = lname, Password = password, clearance = clear });
+            db.SaveChanges();
+
+            return View("~/Views/Home/Index.cshtml", null);
+        }
+
+        public ActionResult SellerIndex()
+        {
+            var clear = from n in db.Sellers
+                        where n.SellerID == sellerID
+                        select n;
+
+            if (clear.First().clearance == 0)
+            {
+                return View("~/Views/Home/Index.cshtml", null);
+            }
+
+            return View("~/Views/Sellers/Index.cshtml", db.Sellers.ToList());
+        }
+
+        public ActionResult NewEmployee()
+        {
+            var clear = from n in db.Sellers
+                        where n.SellerID == sellerID
+                        select n;
+
+            if(clear.First().clearance==0)
+            {
+                return View("~/Views/Home/Index.cshtml", null);
+            }
+
+            return View("~/Views/Sellers/NewEmployee.cshtml", null);
         }
 
         public ActionResult Login()

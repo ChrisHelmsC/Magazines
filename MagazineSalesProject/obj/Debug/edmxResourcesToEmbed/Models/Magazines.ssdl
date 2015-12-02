@@ -54,11 +54,6 @@
       <PropertyRef Name="Name" />
     </Key>
     <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
-    <Property Name="Address" Type="nchar" MaxLength="50" />
-    <Property Name="City" Type="nchar" MaxLength="50" />
-    <Property Name="State" Type="nchar" MaxLength="50" />
-    <Property Name="Zipcode" Type="nchar" MaxLength="50" />
-    <Property Name="Phone" Type="nchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Seller">
     <Key>
@@ -68,6 +63,7 @@
     <Property Name="FirstName" Type="nchar" MaxLength="20" />
     <Property Name="LastName" Type="nchar" MaxLength="20" />
     <Property Name="Password" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="clearance" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_CUSTOMER_INVOICE">
     <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
@@ -78,6 +74,18 @@
       </Principal>
       <Dependent Role="Invoice">
         <PropertyRef Name="Email" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GENRE_MAGAZINE">
+    <End Role="Genre" Type="Self.Genre" Multiplicity="1" />
+    <End Role="Magazine" Type="Self.Magazine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="Magazine">
+        <PropertyRef Name="Genre" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -105,6 +113,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PUBLISHER_MAGAZINE">
+    <End Role="Publisher" Type="Self.Publisher" Multiplicity="1" />
+    <End Role="Magazine" Type="Self.Magazine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Publisher">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="Magazine">
+        <PropertyRef Name="Publisher" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SELLER_CUSTOMER">
     <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
     <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
@@ -129,6 +149,10 @@
       <End Role="Customer" EntitySet="Customer" />
       <End Role="Invoice" EntitySet="Invoice" />
     </AssociationSet>
+    <AssociationSet Name="FK_GENRE_MAGAZINE" Association="Self.FK_GENRE_MAGAZINE">
+      <End Role="Genre" EntitySet="Genre" />
+      <End Role="Magazine" EntitySet="Magazine" />
+    </AssociationSet>
     <AssociationSet Name="FK_INVOICE_CONTAINS" Association="Self.FK_INVOICE_CONTAINS">
       <End Role="Invoice" EntitySet="Invoice" />
       <End Role="InvoiceContains" EntitySet="InvoiceContains" />
@@ -136,6 +160,10 @@
     <AssociationSet Name="FK_MID_CONTAINS" Association="Self.FK_MID_CONTAINS">
       <End Role="Magazine" EntitySet="Magazine" />
       <End Role="InvoiceContains" EntitySet="InvoiceContains" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PUBLISHER_MAGAZINE" Association="Self.FK_PUBLISHER_MAGAZINE">
+      <End Role="Publisher" EntitySet="Publisher" />
+      <End Role="Magazine" EntitySet="Magazine" />
     </AssociationSet>
     <AssociationSet Name="FK_SELLER_CUSTOMER" Association="Self.FK_SELLER_CUSTOMER">
       <End Role="Seller" EntitySet="Seller" />

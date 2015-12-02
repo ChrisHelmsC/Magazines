@@ -59,11 +59,6 @@
             <PropertyRef Name="Name" />
           </Key>
           <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
-          <Property Name="Address" Type="nchar" MaxLength="50" />
-          <Property Name="City" Type="nchar" MaxLength="50" />
-          <Property Name="State" Type="nchar" MaxLength="50" />
-          <Property Name="Zipcode" Type="nchar" MaxLength="50" />
-          <Property Name="Phone" Type="nchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Seller">
           <Key>
@@ -73,6 +68,7 @@
           <Property Name="FirstName" Type="nchar" MaxLength="20" />
           <Property Name="LastName" Type="nchar" MaxLength="20" />
           <Property Name="Password" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="clearance" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_CUSTOMER_INVOICE">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
@@ -83,6 +79,18 @@
             </Principal>
             <Dependent Role="Invoice">
               <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENRE_MAGAZINE">
+          <End Role="Genre" Type="Self.Genre" Multiplicity="1" />
+          <End Role="Magazine" Type="Self.Magazine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Magazine">
+              <PropertyRef Name="Genre" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -110,6 +118,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PUBLISHER_MAGAZINE">
+          <End Role="Publisher" Type="Self.Publisher" Multiplicity="1" />
+          <End Role="Magazine" Type="Self.Magazine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publisher">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Magazine">
+              <PropertyRef Name="Publisher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SELLER_CUSTOMER">
           <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
@@ -134,6 +154,10 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
+          <AssociationSet Name="FK_GENRE_MAGAZINE" Association="Self.FK_GENRE_MAGAZINE">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="Magazine" EntitySet="Magazine" />
+          </AssociationSet>
           <AssociationSet Name="FK_INVOICE_CONTAINS" Association="Self.FK_INVOICE_CONTAINS">
             <End Role="Invoice" EntitySet="Invoice" />
             <End Role="InvoiceContains" EntitySet="InvoiceContains" />
@@ -141,6 +165,10 @@
           <AssociationSet Name="FK_MID_CONTAINS" Association="Self.FK_MID_CONTAINS">
             <End Role="Magazine" EntitySet="Magazine" />
             <End Role="InvoiceContains" EntitySet="InvoiceContains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PUBLISHER_MAGAZINE" Association="Self.FK_PUBLISHER_MAGAZINE">
+            <End Role="Publisher" EntitySet="Publisher" />
+            <End Role="Magazine" EntitySet="Magazine" />
           </AssociationSet>
           <AssociationSet Name="FK_SELLER_CUSTOMER" Association="Self.FK_SELLER_CUSTOMER">
             <End Role="Seller" EntitySet="Seller" />
@@ -151,58 +179,21 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MagazineDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="Email" />
-          </Key>
-          <Property Name="Email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="City" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="SubscriptionsBought" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_CUSTOMER_INVOICE" FromRole="Customer" ToRole="Invoice" />
-        </EntityType>
-        <EntityType Name="Genre">
-          <Key>
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Magazine">
-          <Key>
-            <PropertyRef Name="MID" />
-          </Key>
-          <Property Name="MID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Genre" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="Publisher" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="InvoiceContains" Relationship="MagazineDataModel.FK_MID_CONTAINS" FromRole="Magazine" ToRole="InvoiceContain" />
-        </EntityType>
-        <EntityType Name="Publisher">
-          <Key>
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="State" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="Zipcode" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-        </EntityType>
         <EntityContainer Name="MagazineDataEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Customers" EntityType="Self.Customer" />
-          <EntitySet Name="Genres" EntityType="Self.Genre" />
-          <EntitySet Name="Magazines" EntityType="Self.Magazine" />
-          <EntitySet Name="Publishers" EntityType="Self.Publisher" />
-          <EntitySet Name="Sellers" EntityType="MagazineDataModel.Seller" />
+          <EntitySet Name="Customers" EntityType="MagazineDataModel.Customer" />
+          <EntitySet Name="Genres" EntityType="MagazineDataModel.Genre" />
           <EntitySet Name="Invoices" EntityType="MagazineDataModel.Invoice" />
           <EntitySet Name="InvoiceContains" EntityType="MagazineDataModel.InvoiceContain" />
+          <EntitySet Name="Magazines" EntityType="MagazineDataModel.Magazine" />
+          <EntitySet Name="Publishers" EntityType="MagazineDataModel.Publisher" />
+          <EntitySet Name="Sellers" EntityType="MagazineDataModel.Seller" />
           <AssociationSet Name="FK_CUSTOMER_INVOICE" Association="MagazineDataModel.FK_CUSTOMER_INVOICE">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENRE_MAGAZINE" Association="MagazineDataModel.FK_GENRE_MAGAZINE">
+            <End Role="Genre" EntitySet="Genres" />
+            <End Role="Magazine" EntitySet="Magazines" />
           </AssociationSet>
           <AssociationSet Name="FK_INVOICE_CONTAINS" Association="MagazineDataModel.FK_INVOICE_CONTAINS">
             <End Role="Invoice" EntitySet="Invoices" />
@@ -216,16 +207,29 @@
             <End Role="Magazine" EntitySet="Magazines" />
             <End Role="InvoiceContain" EntitySet="InvoiceContains" />
           </AssociationSet>
+          <AssociationSet Name="FK_PUBLISHER_MAGAZINE" Association="MagazineDataModel.FK_PUBLISHER_MAGAZINE">
+            <End Role="Publisher" EntitySet="Publishers" />
+            <End Role="Magazine" EntitySet="Magazines" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Seller">
+        <EntityType Name="Customer">
           <Key>
-            <PropertyRef Name="SellerID" />
+            <PropertyRef Name="Email" />
           </Key>
-          <Property Name="SellerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
-          <Property Name="Password" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="SubscriptionsBought" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_CUSTOMER_INVOICE" FromRole="Customer" ToRole="Invoice" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Magazines" Relationship="MagazineDataModel.FK_GENRE_MAGAZINE" FromRole="Genre" ToRole="Magazine" />
         </EntityType>
         <EntityType Name="Invoice">
           <Key>
@@ -238,7 +242,7 @@
           <Property Name="ExpirationYear" Type="Int32" />
           <Property Name="SellerID" Type="Int32" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="OrderDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Customer" Relationship="MagazineDataModel.FK_CUSTOMER_INVOICE" FromRole="Invoice" ToRole="Customer" />
           <NavigationProperty Name="InvoiceContains" Relationship="MagazineDataModel.FK_INVOICE_CONTAINS" FromRole="Invoice" ToRole="InvoiceContain" />
           <NavigationProperty Name="Seller" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Invoice" ToRole="Seller" />
@@ -253,6 +257,38 @@
           <NavigationProperty Name="Invoice" Relationship="MagazineDataModel.FK_INVOICE_CONTAINS" FromRole="InvoiceContain" ToRole="Invoice" />
           <NavigationProperty Name="Magazine" Relationship="MagazineDataModel.FK_MID_CONTAINS" FromRole="InvoiceContain" ToRole="Magazine" />
         </EntityType>
+        <EntityType Name="Magazine">
+          <Key>
+            <PropertyRef Name="MID" />
+          </Key>
+          <Property Name="MID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Genre" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Publisher" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Genre1" Relationship="MagazineDataModel.FK_GENRE_MAGAZINE" FromRole="Magazine" ToRole="Genre" />
+          <NavigationProperty Name="InvoiceContains" Relationship="MagazineDataModel.FK_MID_CONTAINS" FromRole="Magazine" ToRole="InvoiceContain" />
+          <NavigationProperty Name="Publisher1" Relationship="MagazineDataModel.FK_PUBLISHER_MAGAZINE" FromRole="Magazine" ToRole="Publisher" />
+        </EntityType>
+        <EntityType Name="Publisher">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Magazines" Relationship="MagazineDataModel.FK_PUBLISHER_MAGAZINE" FromRole="Publisher" ToRole="Magazine" />
+        </EntityType>
+        <EntityType Name="Seller">
+          <Key>
+            <PropertyRef Name="SellerID" />
+          </Key>
+          <Property Name="SellerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="clearance" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="MagazineDataModel.FK_SELLER_CUSTOMER" FromRole="Seller" ToRole="Invoice" />
+        </EntityType>
         <Association Name="FK_CUSTOMER_INVOICE">
           <End Type="MagazineDataModel.Customer" Role="Customer" Multiplicity="0..1" />
           <End Type="MagazineDataModel.Invoice" Role="Invoice" Multiplicity="*" />
@@ -262,6 +298,18 @@
             </Principal>
             <Dependent Role="Invoice">
               <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENRE_MAGAZINE">
+          <End Type="MagazineDataModel.Genre" Role="Genre" Multiplicity="1" />
+          <End Type="MagazineDataModel.Magazine" Role="Magazine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Magazine">
+              <PropertyRef Name="Genre" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -301,7 +349,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_PUBLISHER_MAGAZINE">
+          <End Type="MagazineDataModel.Publisher" Role="Publisher" Multiplicity="1" />
+          <End Type="MagazineDataModel.Magazine" Role="Magazine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publisher">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Magazine">
+              <PropertyRef Name="Publisher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -311,11 +371,11 @@
             <EntityTypeMapping TypeName="MagazineDataModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
                 <ScalarProperty Name="SubscriptionsBought" ColumnName="SubscriptionsBought" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -323,40 +383,6 @@
             <EntityTypeMapping TypeName="MagazineDataModel.Genre">
               <MappingFragment StoreEntitySet="Genre">
                 <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Magazines">
-            <EntityTypeMapping TypeName="MagazineDataModel.Magazine">
-              <MappingFragment StoreEntitySet="Magazine">
-                <ScalarProperty Name="MID" ColumnName="MID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Genre" ColumnName="Genre" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Publisher" ColumnName="Publisher" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Publishers">
-            <EntityTypeMapping TypeName="MagazineDataModel.Publisher">
-              <MappingFragment StoreEntitySet="Publisher">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Sellers">
-            <EntityTypeMapping TypeName="MagazineDataModel.Seller">
-              <MappingFragment StoreEntitySet="Seller">
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="SellerID" ColumnName="SellerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -383,7 +409,37 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+          <EntitySetMapping Name="Magazines">
+            <EntityTypeMapping TypeName="MagazineDataModel.Magazine">
+              <MappingFragment StoreEntitySet="Magazine">
+                <ScalarProperty Name="Publisher" ColumnName="Publisher" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Genre" ColumnName="Genre" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MID" ColumnName="MID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publishers">
+            <EntityTypeMapping TypeName="MagazineDataModel.Publisher">
+              <MappingFragment StoreEntitySet="Publisher">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sellers">
+            <EntityTypeMapping TypeName="MagazineDataModel.Seller">
+              <MappingFragment StoreEntitySet="Seller">
+                <ScalarProperty Name="clearance" ColumnName="clearance" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="SellerID" ColumnName="SellerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

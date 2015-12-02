@@ -5,11 +5,11 @@
       <EntityTypeMapping TypeName="MagazineDataModel.Customer">
         <MappingFragment StoreEntitySet="Customer">
           <ScalarProperty Name="SubscriptionsBought" ColumnName="SubscriptionsBought" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -17,40 +17,6 @@
       <EntityTypeMapping TypeName="MagazineDataModel.Genre">
         <MappingFragment StoreEntitySet="Genre">
           <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Magazines">
-      <EntityTypeMapping TypeName="MagazineDataModel.Magazine">
-        <MappingFragment StoreEntitySet="Magazine">
-          <ScalarProperty Name="MID" ColumnName="MID" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Genre" ColumnName="Genre" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="Publisher" ColumnName="Publisher" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Publishers">
-      <EntityTypeMapping TypeName="MagazineDataModel.Publisher">
-        <MappingFragment StoreEntitySet="Publisher">
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="City" ColumnName="City" />
-          <ScalarProperty Name="State" ColumnName="State" />
-          <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Sellers">
-      <EntityTypeMapping TypeName="MagazineDataModel.Seller">
-        <MappingFragment StoreEntitySet="Seller">
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="SellerID" ColumnName="SellerID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -74,6 +40,36 @@
           <ScalarProperty Name="ContainsKey" ColumnName="ContainsKey" />
           <ScalarProperty Name="MID" ColumnName="MID" />
           <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Magazines">
+      <EntityTypeMapping TypeName="MagazineDataModel.Magazine">
+        <MappingFragment StoreEntitySet="Magazine">
+          <ScalarProperty Name="Publisher" ColumnName="Publisher" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Genre" ColumnName="Genre" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="MID" ColumnName="MID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Publishers">
+      <EntityTypeMapping TypeName="MagazineDataModel.Publisher">
+        <MappingFragment StoreEntitySet="Publisher">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sellers">
+      <EntityTypeMapping TypeName="MagazineDataModel.Seller">
+        <MappingFragment StoreEntitySet="Seller">
+          <ScalarProperty Name="clearance" ColumnName="clearance" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="SellerID" ColumnName="SellerID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

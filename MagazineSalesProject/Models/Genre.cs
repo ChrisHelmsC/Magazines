@@ -14,6 +14,15 @@ namespace MagazineSalesProject.Models
     
     public partial class Genre
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Genre()
+        {
+            this.Magazines = new HashSet<Magazine>();
+        }
+    
         public string Name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Magazine> Magazines { get; set; }
     }
 }

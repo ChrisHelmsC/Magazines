@@ -27,7 +27,9 @@ namespace MagazineSalesProject.Models
         public decimal Price { get; set; }
         public string Publisher { get; set; }
     
+        public virtual Genre Genre1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceContain> InvoiceContains { get; set; }
+        public virtual Publisher Publisher1 { get; set; }
     }
 }
