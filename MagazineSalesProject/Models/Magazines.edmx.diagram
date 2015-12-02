@@ -5,17 +5,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="032cc37b6ea3440caf340e91a15f845b" Name="Diagram1" ZoomLevel="78">
-        <EntityTypeShape EntityType="MagazineDataModel.Customer" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MagazineDataModel.Genre" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MagazineDataModel.Magazine" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MagazineDataModel.Publisher" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MagazineDataModel.Seller" Width="1.5" PointX="0.75" PointY="7.75" />
-        <EntityTypeShape EntityType="MagazineDataModel.Invoice" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="MagazineDataModel.InvoiceContain" Width="1.5" PointX="7.5" PointY="1.5" />
+        <EntityTypeShape EntityType="MagazineDataModel.Customer" Width="1.5" PointX="0.75" PointY="11.125" />
+        <EntityTypeShape EntityType="MagazineDataModel.Genre" Width="1.5" PointX="0.75" PointY="1.625" />
+        <EntityTypeShape EntityType="MagazineDataModel.Invoice" Width="1.5" PointX="3" PointY="9.25" />
+        <EntityTypeShape EntityType="MagazineDataModel.InvoiceContain" Width="1.5" PointX="5.25" PointY="1.375" />
+        <EntityTypeShape EntityType="MagazineDataModel.Magazine" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="MagazineDataModel.Publisher" Width="1.5" PointX="0.75" PointY="5.625" />
+        <EntityTypeShape EntityType="MagazineDataModel.Seller" Width="1.5" PointX="0.75" PointY="8.25" />
         <AssociationConnector Association="MagazineDataModel.FK_CUSTOMER_INVOICE" />
+        <AssociationConnector Association="MagazineDataModel.FK_GENRE_MAGAZINE" />
         <AssociationConnector Association="MagazineDataModel.FK_INVOICE_CONTAINS" />
         <AssociationConnector Association="MagazineDataModel.FK_SELLER_CUSTOMER" />
         <AssociationConnector Association="MagazineDataModel.FK_MID_CONTAINS" />
+        <AssociationConnector Association="MagazineDataModel.FK_PUBLISHER_MAGAZINE" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

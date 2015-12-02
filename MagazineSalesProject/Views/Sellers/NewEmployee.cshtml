@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "NewEmployee";
+}
+
+<h2>Enter New Employee Information</h2>
+
+<fieldset>
+    <legend>Enter Login Information</legend>
+    @using (Ajax.BeginForm("addSeller", "Customers",
+                                                        new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
+    {
+        <div id="divInterestDeatils"></div>
+        <ul>
+            <li>
+                @Html.Label("First Name")<p></p>
+                @Html.TextBox("firstName")
+            </li>
+            <li style="margin-top:5%;">
+                @Html.Label("Last Name")<p></p>
+                @Html.TextBox("lastName")
+            </li>
+            <li style="margin-top:5%;"> 
+                @Html.Label("Password")<p></p>
+                @Html.TextBox("password")
+            </li>
+            <li style="margin-top:5%;">
+                @Html.Label("Clearance (1 for Admin, or 0 for Seller)")<p></p>
+                @Html.TextBox("clearance")
+            </li>
+            <li>
+                <button>Submit</button>
+            </li>
+        </ul>
+    }
+</fieldset>
+

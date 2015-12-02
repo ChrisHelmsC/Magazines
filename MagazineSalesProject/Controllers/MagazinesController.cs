@@ -59,6 +59,17 @@ namespace MagazineSalesProject.Controllers
                     Publisher = magazine.Publisher
                 };
 
+                var pubList = from n in db.Publishers
+                              where n.Name == magazine.Publisher
+                              select n;
+
+                if (!pubList.Any())
+                {
+                    Publisher pub = new Publisher {Name = magazine.Name };
+                    db.Publishers.Add(pub);
+                    db.SaveChanges();
+                }
+
                 try
                 {
                     db.Magazines.Add(mag);
