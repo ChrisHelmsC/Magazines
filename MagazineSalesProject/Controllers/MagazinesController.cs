@@ -76,9 +76,9 @@ namespace MagazineSalesProject.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (Exception exception)
+                catch
                 {
-
+                    return View("~/Views/Home/Index.cshtml", null);
                 }
             }
 
