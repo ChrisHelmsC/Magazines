@@ -10,11 +10,28 @@ using MagazineSalesProject.Models;
 
 namespace MagazineSalesProject.Controllers
 {
+    
     public class CustomersController : Controller
     {
         private MagazineDataEntities db = new MagazineDataEntities();
         private static EmailSeller ES;
         private static int sellerID = -1;
+
+        /*public ActionResult GenreList()
+        {
+            var genreList = from m in db.Genres
+                            select m;
+
+            if (!genreList.Any())
+            {
+                return View("~/Views/Home/Index.cshtml", null);
+            }
+
+            return View("~/Views/Home/Index.cshtml", null);
+            
+
+            return View("~/Views/Sellers/Index.cshtml", db.Genres.ToList());
+        }*/
 
         public ActionResult AddMagazine()
         {
@@ -90,9 +107,19 @@ namespace MagazineSalesProject.Controllers
 
         public ActionResult addSeller()
         {
+
+
             String fname = Convert.ToString(Request["firstName"].ToString());
             String lname = Convert.ToString(Request["lastName"].ToString());
             String password = Convert.ToString(Request["password"].ToString());
+            String passwordRepeated = Convert.ToString(Request["passwordRepeated"].ToString());
+
+            if (String.Compare(password, passwordRepeated) != 0)
+            {
+                return View("~/Views/Sellers/NewEmployee.cshtml", null);
+            }
+
+
             int clear = Convert.ToInt32(Request["clearance"].ToString());
 
             db.Sellers.Add(new Seller { FirstName = fname, LastName = lname, Password = password, clearance = clear });

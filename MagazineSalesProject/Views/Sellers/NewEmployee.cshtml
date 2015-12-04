@@ -8,30 +8,45 @@
 <fieldset>
     <legend>Enter Login Information</legend>
     @using (Ajax.BeginForm("addSeller", "Customers",
-                                                        new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
+                                                        new AjaxOptions { UpdateTargetId = "divInterestDetails" }))
     {
-        <div id="divInterestDeatils"></div>
-        <ul>
-            <li>
-                @Html.Label("First Name")<p></p>
-                @Html.TextBox("firstName")
-            </li>
-            <li style="margin-top:5%;">
-                @Html.Label("Last Name")<p></p>
-                @Html.TextBox("lastName")
-            </li>
-            <li style="margin-top:5%;"> 
-                @Html.Label("Password")<p></p>
-                @Html.TextBox("password")
-            </li>
-            <li style="margin-top:5%;">
-                @Html.Label("Clearance (1 for Admin, or 0 for Seller)")<p></p>
-                @Html.TextBox("clearance")
-            </li>
-            <li>
-                <button>Submit</button>
-            </li>
-        </ul>
+        <div id="divInterestDetails"></div>
+        <table>
+            <tr>
+                <td>@Html.Label("First Name")<p></p>
+                @Html.TextBox("firstName")</td>
+                <td width="25px"></td>
+                <td>@Html.Label("Last Name")<p></p>
+                @Html.TextBox("lastName")</td>
+            </tr>
+            <tr>
+                <td height="25px"></td>
+            </tr>
+            <tr>
+                <td>@Html.Label("Password")<p></p>
+                @Html.TextBox("password")</td>
+                <th width="25px"></th>
+                <td>@Html.Label("Repeat Password")<p></p>
+                @Html.TextBox("passwordRepeated")</td>
+            </tr>
+            <tr>
+                <td height="25px"></td>
+            </tr>
+            <tr>
+                <td>@Html.Label("Clearance (1 for Admin, 0 for Seller)")<p></p>
+                @Html.TextBox("clearance")</td>
+                <th width="25px"></th>
+                <td></td>
+            </tr>
+            <tr>
+                <td height="25px"></td>
+            </tr>
+            <tr>
+                <td><button>Submit</button></td>
+                <th width="25px"></th>
+                <td></td>
+            </tr>
+        </table>
     }
 </fieldset>
 
