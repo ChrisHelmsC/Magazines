@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Select a Customer</h2>
 
 <table class="table">
     <tr>
@@ -49,21 +49,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.SubscriptionsBought)
         </td>
+        <td>
+            @Ajax.ActionLink("Sell / View Invoices", "CustomerInfo", "Customers", new { custEmail = item.Email.Trim() }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divInterestDetails", InsertionMode = InsertionMode.Replace })
+        </td>
     </tr>
 }
 </table>
-
-<fieldset>
-    <legend>Select A Customer</legend>
-    @using (Ajax.BeginForm("CustomerInfo", "Customers", new AjaxOptions { UpdateTargetId = "divCustomerDetails" }))
-    {
-        <div id="divCustomerDetails"></div>
-        <ul>
-            <li>
-                @Html.Label("Customer Email")
-                @Html.TextBox("custEmail")
-            </li>
-        </ul>
-        <button>Select</button>
-    }
-</fieldset>

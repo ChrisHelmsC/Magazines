@@ -51,7 +51,7 @@ namespace MagazineSalesProject.Controllers
             db.Magazines.Add(magazine);
             db.SaveChanges();
 
-            return View("~/Views/Magazines/Index.cshtml", null);
+            return View("~/Views/Magazines/Index.cshtml", db.Magazines.ToList());
         }
 
         public ActionResult Logout()
@@ -249,9 +249,9 @@ namespace MagazineSalesProject.Controllers
             return View();
         }
 
-        public ActionResult CustomerInfo()
+        public ActionResult CustomerInfo(String custEmail)
         {
-            string email = Convert.ToString(Request["custEmail"].ToString().Trim());
+            string email = custEmail.Trim();
 
             var custList = from n in db.Customers
                            where n.Email == email
@@ -287,17 +287,22 @@ namespace MagazineSalesProject.Controllers
             return View("CustomerInfo", CI);
         }
 
-        public ActionResult Sell(EmailSeller token)
+        public ActionResult Sell(EmailSeller token, String selectedMag)
         {
             if (token.Email != null)
             {
                 ES = token;
                 ES.SellerID = sellerID;
-            }
-            else
-            {
+                ES.magazineList = db.Magazines.ToList();
+            }else {
+                var magName = selectedMag.Trim();
+
+
+                /*
                 var magName = Convert.ToString(Request["newMag"].ToString().Trim());
 
+                
+                */
                 var newMagazine = from a in db.Magazines
                                   where a.Name == magName
                                   select a;
@@ -308,8 +313,6 @@ namespace MagazineSalesProject.Controllers
                 ES.total = ES.total + newFirstMag.Price;
                 return View(ES);
             }
-    
-
             return View(ES);
         }
 

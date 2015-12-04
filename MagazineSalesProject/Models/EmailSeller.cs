@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MagazineSalesProject.Models
 {
+    
     public class EmailSeller
     {
         [Key]
@@ -14,5 +15,7 @@ namespace MagazineSalesProject.Models
         public List<Magazine> magList { get; set; }
         public decimal total = 0;
         public string magToAdd = "";
+
+        public List<Magazine> magazineList { get; set; }
     }
 }
