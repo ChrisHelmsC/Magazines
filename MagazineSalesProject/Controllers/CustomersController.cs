@@ -51,7 +51,7 @@ namespace MagazineSalesProject.Controllers
             db.Magazines.Add(magazine);
             db.SaveChanges();
 
-            return View("~/Views/Magazines/Index.cshtml", null);
+            return View("~/Views/Magazines/Index.cshtml", db.Magazines.ToList());
         }
 
         public ActionResult Logout()
