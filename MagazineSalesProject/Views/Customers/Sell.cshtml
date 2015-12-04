@@ -9,9 +9,9 @@
 <fieldset>
     <legend>Sell Magazines</legend>
     @using (Ajax.BeginForm("Sell", "Customers",
-                                new AjaxOptions { UpdateTargetId = "divInterestDetails" }))
+                                new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
     {
-        <div id="divInterestDetails"></div>
+        <div id="divInterestDeatils"></div>
         <ul>
             <li>
                  @Html.Label("New Magazine To Add")

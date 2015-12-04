@@ -1,5 +1,4 @@
-﻿@model MagazineSalesProject.Models.SignUpModel
-
+﻿
 @{
     ViewBag.Title = "Create";
 }
@@ -8,47 +7,35 @@
 
 <fieldset>
     <legend>Enter Login Information</legend>
-    @using (Ajax.BeginForm("AddMagazine", "Customers",
-                                    new AjaxOptions { UpdateTargetId = "divInterestDetails" }))
+    @using (Ajax.BeginForm("addMagazine", "Customers",
+                                    new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
     {
-        <div id="divInterestDetails"></div>
-        
-          <table>
-            <tr>
-                <td>@Html.Label("Name")<p></p>
-                @Html.TextBox("name")</td>
-                <td width="25px"></td>
-                <td>@Html.Label("Description")<p></p>
-                @Html.TextBox("description")</td>
-            </tr>
-            <tr>
-                <td height="25px"></td>
-            </tr>
-            <tr>
-                <td>@Html.Label("Genre")<p></p>
-                @Html.TextBox("genre")</td>
-                <th width="25px"></th>
-                <td>@Html.Label("Price")<p></p>
-                @Html.TextBox("price")</td>
-            </tr>
-            <tr>
-                <td height="25px"></td>
-            </tr>
-            <tr>
-                <td>@Html.Label("Publisher")<p></p>
-                @Html.TextBox("publisher")</td>
-                <th width="25px"></th>
-                <td></td>
-            </tr>
-            <tr>
-                <td height="25px"></td>
-            </tr>
-            <tr>
-                <td><button>Submit</button></td>
-                <th width="25px"></th>
-                <td></td>
-            </tr>
-        </table>
+        <div id="divInterestDeatils"></div>
+        <ul>
+            <li>
+                @Html.Label("Name")<p></p>
+                @Html.TextBox("name")
+            </li>
+            <li style="margin-top:5%;">
+                @Html.Label("Description")<p></p>
+                @Html.TextBox("description")
+            </li>
+            <li style="margin-top:5%;">
+                @Html.Label("Genre")<p></p>
+                @Html.TextBox("genre")
+            </li>
+            <li style="margin-top:5%;">
+                @Html.Label("Price")<p></p>
+                @Html.TextBox("price")
+            </li>
+            <li style="margin-top:5%;">
+                @Html.Label("Publisher")<p></p>
+                @Html.TextBox("publisher")
+            </li>
+            <li>
+                <button>Submit</button>
+            </li>
+        </ul>
     }
 </fieldset>
 

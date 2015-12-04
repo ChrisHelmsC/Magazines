@@ -8,43 +8,26 @@
 <fieldset>
     <legend>Sell Magazines</legend>
     @using (Ajax.BeginForm("CompleteCheckout", "Customers",
-                                        new AjaxOptions { UpdateTargetId = "divInterestDetails" }))
+                                        new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
     {
-        <div id="divInterestDetails"></div>
-           <table>
-            <tr>
-                <td>@Html.Label("Customer Card Number (Format: 1111222233334444)")
-                @Html.TextBox("cardNum")</td>
-                <td width="25px"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td height="25px"></td>
-            </tr>
-            <tr>
-                <td>@Html.Label("Card Expiration Month (Format: MM)")
-                @Html.TextBox("cardExpMo")</td>
-                <th width="25px"></th>
-                <td></td>
-            </tr>
-            <tr>
-                <td height="25px"></td>
-            </tr>
-            <tr>
-                <td>@Html.Label("Card Expiration Year (Format: YY)")
-                @Html.TextBox("cardExpYe")</td>
-                <th width="25px"></th>
-                <td></td>
-            </tr>
-            <tr>
-                <td height="25px"></td>
-            </tr>
-            <tr>
-                <td><button>Submit and Checkout</button></td>
-                <th width="25px"></th>
-                <td></td>
-            </tr>
-        </table>
+        <div id="divInterestDeatils"></div>
+        <ul>
+            <li>
+                @Html.Label("Customer Card Number")
+                @Html.TextBox("cardNum")
+            </li>
+            <li>
+                @Html.Label("Card Expiration Month")
+                @Html.TextBox("cardExpMo")
+            </li>
+            <li>
+                @Html.Label("Card Expiration Year")
+                @Html.TextBox("cardExpYe")
+            </li>
+            <li>
+                <button>Submit and Checkout</button>
+            </li>
+        </ul>
     }
 </fieldset>
 
