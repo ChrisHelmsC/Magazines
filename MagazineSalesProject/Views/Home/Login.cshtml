@@ -7,22 +7,35 @@
 <fieldset>
     <legend>Enter Login Information</legend>
     @using (Ajax.BeginForm("Login", "Customers",
-                                                new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
+                                                new AjaxOptions { UpdateTargetId = "divInterestDetails" }))
     {
-        <div id="divInterestDeatils"></div>
-        <ul>
-            <li>
-                @Html.Label("Username")
-                @Html.TextBox("username")
-            </li>
-            <li>
-                @Html.Label("Password")
-                @Html.TextBox("password")
-            </li>
-            <li>
-                <button>Submit</button>
-            </li>
-        </ul>
+        <div id="divInterestDetails"></div>
+
+          <table>
+            <tr>
+                <td>@Html.Label("Username")
+                </td>
+                <td width="25px"></td>
+                <td>@Html.TextBox("username")</td>
+            </tr>
+            <tr>
+                <td height="25px"></td>
+            </tr>
+            <tr>
+                <td>@Html.Label("Password")
+                </td>
+                <th width="25px"></th>
+                <td>@Html.Password("password")</td>
+            </tr>
+            <tr>
+                <td height="25px"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <th width="25px"></th>
+                <td><button>Submit</button></td>
+            </tr>
+        </table>
     }
 </fieldset>
 

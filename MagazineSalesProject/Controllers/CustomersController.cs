@@ -93,6 +93,14 @@ namespace MagazineSalesProject.Controllers
             String fname = Convert.ToString(Request["firstName"].ToString());
             String lname = Convert.ToString(Request["lastName"].ToString());
             String password = Convert.ToString(Request["password"].ToString());
+            String passwordRepeated = Convert.ToString(Request["passwordRepeated"].ToString());
+
+            if (String.Compare(password, passwordRepeated) != 0)
+            {
+                return View("~/Views/Sellers/NewEmployee.cshtml", null);
+            }
+
+
             int clear = Convert.ToInt32(Request["clearance"].ToString());
 
             db.Sellers.Add(new Seller { FirstName = fname, LastName = lname, Password = password, clearance = clear });
