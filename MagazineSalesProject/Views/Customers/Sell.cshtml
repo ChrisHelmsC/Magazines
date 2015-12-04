@@ -1,68 +1,95 @@
-﻿@model MagazineSalesProject.Models.EmailSeller
+@model MagazineSalesProject.Models.EmailSeller
 
 @{
     ViewBag.Title = "Sell";
 }
 
-<h2 style="margin-top:5%; margin-bottom:10%;">Selling to @Html.DisplayFor(model => model.Email)</h2>
+<h3 style="margin-top:2%; margin-bottom:2%;">Selling to @Html.DisplayFor(model => model)</h3>
 
 <fieldset>
-    <legend>Sell Magazines</legend>
-    @using (Ajax.BeginForm("Sell", "Customers",
-                                new AjaxOptions { UpdateTargetId = "divInterestDetails" }))
-    {
-        <div id="divInterestDetails"></div>
-        <ul>
-            <li>
-                 @Html.Label("New Magazine To Add")
-                 @Html.TextBox("newMag")
-            </li>
-            <li>
-                <button>Add</button>
-           </li>
-        </ul>
-    }
-</fieldset>
-
-<table class="table" style="margin-bottom:10%;">
-    <tr>
-        <td>
-            @Html.DisplayNameFor(model => model.magList.First().Name)
-        </td>
-        <td>
-            @Html.DisplayNameFor(model => model.magList.First().Description)
-        </td>
-        <td>
-            @Html.DisplayNameFor(model => model.magList.First().Price)
-        </td>
-    </tr>
-
-    @foreach (var item in Model.magList)
-    {
+    <strong>Cart:</strong>
+    <table class="table" style="margin-bottom:2%;">
         <tr>
             <td>
-                @Html.DisplayFor(model => item.Name)
+                <strong>@Html.DisplayNameFor(model => model.magList.First().Name)</strong>
             </td>
             <td>
-                @Html.DisplayFor(model => item.Description)
+                <strong>@Html.DisplayNameFor(model => model.magList.First().Description)</strong>
             </td>
             <td>
-                @Html.DisplayFor(model => item.Price)
+                <strong>@Html.DisplayNameFor(model => model.magList.First().Price)</strong>
             </td>
         </tr>
-    }
 
-    <tr>
-        <td>Total</td>
-        <td></td>
-        <td>@Html.DisplayFor(model => model.total)</td>
-    </tr>
+        @foreach (var item in Model.magList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Price)
+                </td>
+            </tr>
+        }
 
-    <tr>
-        <td>
-            @Html.ActionLink("Finish and Go To Billing Info", "BillingInfo", "Customers", Model, null)
-        </td>
-    </tr>
+        <tr>
+            <td>Total</td>
+            <td></td>
+            <td>@Html.DisplayFor(model => model.total)</td>
+        </tr>
 
-</table>
+        <tr>
+            <td>
+                @Html.ActionLink("Finish and Go To Billing Info", "BillingInfo", "Customers", Model, null)
+            </td>
+        </tr>
 
+    </table>
+    <table class="table">
+        <tr>
+            <th>
+                <strong>@Html.DisplayNameFor(model => model.magazineList.First().Name)</strong>
+            </th>
+            <th>
+                <strong>@Html.DisplayNameFor(model => model.magazineList.First().Description)</strong>
+            </th>
+            <th>
+                <strong>@Html.DisplayNameFor(model => model.magazineList.First().Genre)</strong>
+            </th>
+            <th>
+                <strong>@Html.DisplayNameFor(model => model.magazineList.First().Price)</strong>
+            </th>
+            <th>
+                <strong>@Html.DisplayNameFor(model => model.magazineList.First().Publisher)</strong>
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var itemm in Model.magazineList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => itemm.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => itemm.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => itemm.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => itemm.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => itemm.Publisher)
+                </td>
+                <td>
+                    @Ajax.ActionLink("Add to cart", "Sell", "Customers", new { selectedMag = itemm.Name.Trim() }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divInterestDetails", InsertionMode = InsertionMode.Replace })
+                </td>
+            </tr>
+        }
+    </table>
+</fieldset>
