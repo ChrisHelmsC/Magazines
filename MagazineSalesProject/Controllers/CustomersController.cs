@@ -66,6 +66,11 @@ namespace MagazineSalesProject.Controllers
                         where n.SellerID == sellerID
                         select n;
 
+            if (!clear.Any())
+            {
+                return View("~/Views/Home/Index.cshtml", null);
+            }
+
             if (clear.First().clearance == 0)
             {
                 return View("~/Views/Home/Index.cshtml", null);
@@ -79,6 +84,11 @@ namespace MagazineSalesProject.Controllers
             var clear = from n in db.Sellers
                         where n.SellerID == sellerID
                         select n;
+
+            if (!clear.Any())
+            {
+                return View("~/Views/Home/Index.cshtml", null);
+            }
 
             if (clear.First().clearance == 0)
             {
@@ -114,6 +124,10 @@ namespace MagazineSalesProject.Controllers
             var clear = from n in db.Sellers
                         where n.SellerID == sellerID
                         select n;
+            if (!clear.Any())
+            {
+                return View("~/Views/Home/Index.cshtml", null);
+            }
 
             if (clear.First().clearance == 0)
             {
@@ -128,6 +142,10 @@ namespace MagazineSalesProject.Controllers
             var clear = from n in db.Sellers
                         where n.SellerID == sellerID
                         select n;
+            if (!clear.Any())
+            {
+                return View("~/Views/Home/Index.cshtml", null);
+            }
 
             if(clear.First().clearance==0)
             {
