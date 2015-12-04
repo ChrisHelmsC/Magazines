@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -215,7 +215,7 @@ namespace MagazineSalesProject.Controllers
             var customerList = from m in db.Customers
                            where m.Email == ES.Email
                            select m;
-            
+
 
             foreach (var item in ES.magList)
             {
@@ -226,7 +226,7 @@ namespace MagazineSalesProject.Controllers
 
             CompleteInvoice CI = new CompleteInvoice {inv = newInvoice, magList = ES.magList };
 
-            return View(CI);            
+            return View(CI);
         }
 
         public ActionResult InvoiceDetails(Invoice inv)
@@ -301,7 +301,7 @@ namespace MagazineSalesProject.Controllers
                 /*
                 var magName = Convert.ToString(Request["newMag"].ToString().Trim());
 
-                
+
                 */
                 var newMagazine = from a in db.Magazines
                                   where a.Name == magName
@@ -338,7 +338,7 @@ namespace MagazineSalesProject.Controllers
         }
 
         // POST: Customers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -371,7 +371,7 @@ namespace MagazineSalesProject.Controllers
         }
 
         // POST: Customers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
