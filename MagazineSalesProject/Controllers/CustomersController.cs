@@ -22,9 +22,9 @@ namespace MagazineSalesProject.Controllers
             String mDescription = Convert.ToString(Request["description"].ToString());
             String mGenre = Convert.ToString(Request["genre"].ToString());
             decimal mPrice = Convert.ToDecimal(Request["price"].ToString());
-            String mPublisher =  Convert.ToString(Request["publisher"].ToString());
+            String mPublisher = Convert.ToString(Request["publisher"].ToString());
 
-            Magazine magazine = new Magazine {Name = mName, Description = mDescription, Genre = mGenre, Price = mPrice, Publisher = mPublisher};
+            Magazine magazine = new Magazine { Name = mName, Description = mDescription, Genre = mGenre, Price = mPrice, Publisher = mPublisher };
 
             var pubList = from n in db.Publishers
                           where n.Name == magazine.Publisher
@@ -34,7 +34,7 @@ namespace MagazineSalesProject.Controllers
                             where m.Name == magazine.Genre
                             select m;
 
-            if(!genreList.Any())
+            if (!genreList.Any())
             {
                 Genre gen = new Genre { Name = magazine.Genre };
                 db.Genres.Add(gen);
@@ -57,7 +57,7 @@ namespace MagazineSalesProject.Controllers
         public ActionResult Logout()
         {
             sellerID = -1;
-            return View("~/Views/Home/Login.cshtml" ,null);
+            return View("~/Views/Home/Login.cshtml", null);
         }
 
         public ActionResult IndexMagazine()
@@ -147,7 +147,7 @@ namespace MagazineSalesProject.Controllers
                 return View("~/Views/Home/Index.cshtml", null);
             }
 
-            if(clear.First().clearance==0)
+            if (clear.First().clearance == 0)
             {
                 return View("~/Views/Home/Index.cshtml", null);
             }
@@ -183,7 +183,7 @@ namespace MagazineSalesProject.Controllers
                              where n.SellerID == LT.sellerID
                              where n.Password == LT.password
                              select n;
-            if(sellerList.ToList().Count == 0)
+            if (sellerList.ToList().Count == 0)
             {
                 return View("~/Views/Home/Login.cshtml", null);
             }
@@ -195,7 +195,7 @@ namespace MagazineSalesProject.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            if(sellerID == -1)
+            if (sellerID == -1)
             {
                 return View("~/Views/Home/Login.cshtml", null);
             }
@@ -208,23 +208,23 @@ namespace MagazineSalesProject.Controllers
             int expMonth = Convert.ToInt32(Request["cardExpMo"].ToString().Trim());
             int expYear = Convert.ToInt32(Request["cardExpYe"].ToString().Trim());
 
-            var custInvoice = new Invoice {Total = ES.total, CardNumber = cardNum, ExpirationMonth = expMonth, ExpirationYear = expYear, SellerID=ES.SellerID, Email = ES.Email, OrderDate = DateTime.Now};
+            var custInvoice = new Invoice { Total = ES.total, CardNumber = cardNum, ExpirationMonth = expMonth, ExpirationYear = expYear, SellerID = ES.SellerID, Email = ES.Email, OrderDate = DateTime.Now };
             Invoice newInvoice = db.Invoices.Add(custInvoice);
             db.SaveChanges();
 
             var customerList = from m in db.Customers
-                           where m.Email == ES.Email
-                           select m;
+                               where m.Email == ES.Email
+                               select m;
 
 
             foreach (var item in ES.magList)
             {
-                db.InvoiceContains.Add(new InvoiceContain { InvoiceNumber = newInvoice.InvoiceNumber, MID =  item.MID});
+                db.InvoiceContains.Add(new InvoiceContain { InvoiceNumber = newInvoice.InvoiceNumber, MID = item.MID });
                 customerList.First().SubscriptionsBought = customerList.First().SubscriptionsBought + 1;
                 db.SaveChanges();
             }
 
-            CompleteInvoice CI = new CompleteInvoice {inv = newInvoice, magList = ES.magList };
+            CompleteInvoice CI = new CompleteInvoice { inv = newInvoice, magList = ES.magList };
 
             return View(CI);
         }
@@ -294,8 +294,11 @@ namespace MagazineSalesProject.Controllers
                 ES = token;
                 ES.SellerID = sellerID;
                 ES.magazineList = db.Magazines.ToList();
-            }else {
+            }
+            else
+            {
                 var magName = selectedMag.Trim();
+                ES.magazineList = db.Magazines.ToList();
 
 
                 /*
