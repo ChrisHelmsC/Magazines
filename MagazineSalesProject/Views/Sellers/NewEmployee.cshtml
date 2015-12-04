@@ -25,7 +25,7 @@
             <tr>
                 <td>@Html.Label("Password")<p></p>
                 @Html.TextBox("password")</td>
-                <th width="25px"></th>
+                <td width="25px"></td>
                 <td>@Html.Label("Repeat Password")<p></p>
                 @Html.TextBox("passwordRepeated")</td>
             </tr>
@@ -33,9 +33,11 @@
                 <td height="25px"></td>
             </tr>
             <tr>
-                <td>@Html.Label("Clearance (1 for Admin, 0 for Seller)")<p></p>
+                <td>@Html.Label("Clearance")<br />
+                    @Html.Label("(1 for Admin, 0 for Seller)")
+                <p></p>
                 @Html.TextBox("clearance")</td>
-                <th width="25px"></th>
+                <td width="25px"></td>
                 <td></td>
             </tr>
             <tr>
@@ -43,7 +45,7 @@
             </tr>
             <tr>
                 <td><button>Submit</button></td>
-                <th width="25px"></th>
+                <td width="25px"></td>
                 <td></td>
             </tr>
         </table>
