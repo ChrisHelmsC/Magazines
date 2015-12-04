@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -215,7 +215,7 @@ namespace MagazineSalesProject.Controllers
             var customerList = from m in db.Customers
                            where m.Email == ES.Email
                            select m;
-            
+
 
             foreach (var item in ES.magList)
             {
@@ -226,7 +226,7 @@ namespace MagazineSalesProject.Controllers
 
             CompleteInvoice CI = new CompleteInvoice {inv = newInvoice, magList = ES.magList };
 
-            return View(CI);            
+            return View(CI);
         }
 
         public ActionResult InvoiceDetails(Invoice inv)
@@ -249,9 +249,9 @@ namespace MagazineSalesProject.Controllers
             return View();
         }
 
-        public ActionResult CustomerInfo()
+        public ActionResult CustomerInfo(String custEmail)
         {
-            string email = Convert.ToString(Request["custEmail"].ToString().Trim());
+            string email = custEmail.Trim();
 
             var custList = from n in db.Customers
                            where n.Email == email
@@ -287,17 +287,22 @@ namespace MagazineSalesProject.Controllers
             return View("CustomerInfo", CI);
         }
 
-        public ActionResult Sell(EmailSeller token)
+        public ActionResult Sell(EmailSeller token, String selectedMag)
         {
             if (token.Email != null)
             {
                 ES = token;
                 ES.SellerID = sellerID;
-            }
-            else
-            {
+                ES.magazineList = db.Magazines.ToList();
+            }else {
+                var magName = selectedMag.Trim();
+
+
+                /*
                 var magName = Convert.ToString(Request["newMag"].ToString().Trim());
 
+
+                */
                 var newMagazine = from a in db.Magazines
                                   where a.Name == magName
                                   select a;
@@ -308,8 +313,6 @@ namespace MagazineSalesProject.Controllers
                 ES.total = ES.total + newFirstMag.Price;
                 return View(ES);
             }
-    
-
             return View(ES);
         }
 
@@ -335,7 +338,7 @@ namespace MagazineSalesProject.Controllers
         }
 
         // POST: Customers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -368,7 +371,7 @@ namespace MagazineSalesProject.Controllers
         }
 
         // POST: Customers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
